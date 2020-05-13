@@ -13,12 +13,10 @@ It has these top-level messages:
 */
 package common
 
-import (
-	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
-	any "github.com/golang/protobuf/ptypes/any"
-	math "math"
-)
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
+import math "math"
+import google_protobuf "github.com/golang/protobuf/ptypes/any"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -29,7 +27,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 type Retcode int32
 
@@ -62,7 +60,6 @@ var Retcode_name = map[int32]string{
 	80006: "FILE_OP_FAILED",
 	80007: "OBJECT_CONFLICT",
 }
-
 var Retcode_value = map[string]int32{
 	"UNKNOWN_RETCODE":       0,
 	"OK":                    200,
@@ -81,43 +78,17 @@ var Retcode_value = map[string]int32{
 func (x Retcode) String() string {
 	return proto.EnumName(Retcode_name, int32(x))
 }
-
-func (Retcode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_8f954d82c0b891f6, []int{0}
-}
+func (Retcode) EnumDescriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
 
 type BaseRet struct {
-	Retcode              Retcode  `protobuf:"varint,10,opt,name=retcode,proto3,enum=common.Retcode" json:"retcode,omitempty"`
-	Message              string   `protobuf:"bytes,20,opt,name=message,proto3" json:"message,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Retcode Retcode `protobuf:"varint,10,opt,name=retcode,enum=common.Retcode" json:"retcode,omitempty"`
+	Message string  `protobuf:"bytes,20,opt,name=message" json:"message,omitempty"`
 }
 
-func (m *BaseRet) Reset()         { *m = BaseRet{} }
-func (m *BaseRet) String() string { return proto.CompactTextString(m) }
-func (*BaseRet) ProtoMessage()    {}
-func (*BaseRet) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8f954d82c0b891f6, []int{0}
-}
-
-func (m *BaseRet) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_BaseRet.Unmarshal(m, b)
-}
-func (m *BaseRet) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_BaseRet.Marshal(b, m, deterministic)
-}
-func (m *BaseRet) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_BaseRet.Merge(m, src)
-}
-func (m *BaseRet) XXX_Size() int {
-	return xxx_messageInfo_BaseRet.Size(m)
-}
-func (m *BaseRet) XXX_DiscardUnknown() {
-	xxx_messageInfo_BaseRet.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_BaseRet proto.InternalMessageInfo
+func (m *BaseRet) Reset()                    { *m = BaseRet{} }
+func (m *BaseRet) String() string            { return proto.CompactTextString(m) }
+func (*BaseRet) ProtoMessage()               {}
+func (*BaseRet) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
 
 func (m *BaseRet) GetRetcode() Retcode {
 	if m != nil {
@@ -134,41 +105,18 @@ func (m *BaseRet) GetMessage() string {
 }
 
 type Page struct {
-	Index                int32      `protobuf:"varint,10,opt,name=index,proto3" json:"index,omitempty"`
-	Num                  int32      `protobuf:"varint,20,opt,name=num,proto3" json:"num,omitempty"`
-	Size                 int32      `protobuf:"varint,30,opt,name=size,proto3" json:"size,omitempty"`
-	All                  int32      `protobuf:"varint,50,opt,name=all,proto3" json:"all,omitempty"`
-	Total                int32      `protobuf:"varint,60,opt,name=total,proto3" json:"total,omitempty"`
-	Data                 []*any.Any `protobuf:"bytes,70,rep,name=data,proto3" json:"data,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
-	XXX_unrecognized     []byte     `json:"-"`
-	XXX_sizecache        int32      `json:"-"`
+	Index int32                  `protobuf:"varint,10,opt,name=index" json:"index,omitempty"`
+	Num   int32                  `protobuf:"varint,20,opt,name=num" json:"num,omitempty"`
+	Size  int32                  `protobuf:"varint,30,opt,name=size" json:"size,omitempty"`
+	All   int32                  `protobuf:"varint,50,opt,name=all" json:"all,omitempty"`
+	Total int32                  `protobuf:"varint,60,opt,name=total" json:"total,omitempty"`
+	Data  []*google_protobuf.Any `protobuf:"bytes,70,rep,name=data" json:"data,omitempty"`
 }
 
-func (m *Page) Reset()         { *m = Page{} }
-func (m *Page) String() string { return proto.CompactTextString(m) }
-func (*Page) ProtoMessage()    {}
-func (*Page) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8f954d82c0b891f6, []int{1}
-}
-
-func (m *Page) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Page.Unmarshal(m, b)
-}
-func (m *Page) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Page.Marshal(b, m, deterministic)
-}
-func (m *Page) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Page.Merge(m, src)
-}
-func (m *Page) XXX_Size() int {
-	return xxx_messageInfo_Page.Size(m)
-}
-func (m *Page) XXX_DiscardUnknown() {
-	xxx_messageInfo_Page.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Page proto.InternalMessageInfo
+func (m *Page) Reset()                    { *m = Page{} }
+func (m *Page) String() string            { return proto.CompactTextString(m) }
+func (*Page) ProtoMessage()               {}
+func (*Page) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
 
 func (m *Page) GetIndex() int32 {
 	if m != nil {
@@ -205,7 +153,7 @@ func (m *Page) GetTotal() int32 {
 	return 0
 }
 
-func (m *Page) GetData() []*any.Any {
+func (m *Page) GetData() []*google_protobuf.Any {
 	if m != nil {
 		return m.Data
 	}
@@ -213,7 +161,6 @@ func (m *Page) GetData() []*any.Any {
 }
 
 func init() {
-	proto.RegisterEnum("common.Retcode", Retcode_name, Retcode_value)
 	proto.RegisterType((*BaseRet)(nil), "common.BaseRet")
 	proto.RegisterType((*Page)(nil), "common.Page")
 	proto.RegisterEnum("common.Retcode", Retcode_name, Retcode_value)

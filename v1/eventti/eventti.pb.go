@@ -35,14 +35,12 @@ It has these top-level messages:
 */
 package eventti
 
-import (
-	fmt "fmt"
-	proto "github.com/golang/protobuf/proto"
-	common "github.com/sky-cloud-tec/proto/v1/common"
-	nap "github.com/sky-cloud-tec/proto/v1/nap"
-	workflow "github.com/sky-cloud-tec/proto/v1/workflow"
-	math "math"
-)
+import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
+import math "math"
+import common "github.com/sky-cloud-tec/proto/v1/common"
+import nap "github.com/sky-cloud-tec/proto/v1/nap"
+import workflow "github.com/sky-cloud-tec/proto/v1/workflow"
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -53,7 +51,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 type EventType int32
 
@@ -92,7 +90,6 @@ var EventType_name = map[int32]string{
 	13: "WORKFLOW_STAGE_STATE_CHANGED",
 	14: "BAAS_TEST",
 }
-
 var EventType_value = map[string]int32{
 	"UNKNOWN_EVENT_TYPE":            0,
 	"DEVICE_CONFIG_UPDATED":         1,
@@ -114,10 +111,7 @@ var EventType_value = map[string]int32{
 func (x EventType) String() string {
 	return proto.EnumName(EventType_name, int32(x))
 }
-
-func (EventType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{0}
-}
+func (EventType) EnumDescriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
 
 type NotificationChannelType int32
 
@@ -136,22 +130,18 @@ var NotificationChannelType_name = map[int32]string{
 	30: "WEBSOCKET",
 	40: "GUOSEN_PUSH_OVER",
 }
-
 var NotificationChannelType_value = map[string]int32{
 	"UNKNOWN_NOTIFICATION_CHANNEL_TYPE": 0,
-	"EMAIL":                             10,
-	"PHONE":                             20,
-	"WEBSOCKET":                         30,
-	"GUOSEN_PUSH_OVER":                  40,
+	"EMAIL":            10,
+	"PHONE":            20,
+	"WEBSOCKET":        30,
+	"GUOSEN_PUSH_OVER": 40,
 }
 
 func (x NotificationChannelType) String() string {
 	return proto.EnumName(NotificationChannelType_name, int32(x))
 }
-
-func (NotificationChannelType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{1}
-}
+func (NotificationChannelType) EnumDescriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
 
 type EmailProtocol int32
 
@@ -166,7 +156,6 @@ var EmailProtocol_name = map[int32]string{
 	10: "SMTP",
 	20: "SECURE_SMTP",
 }
-
 var EmailProtocol_value = map[string]int32{
 	"UNKNOWN_PROTOCOL": 0,
 	"SMTP":             10,
@@ -176,43 +165,17 @@ var EmailProtocol_value = map[string]int32{
 func (x EmailProtocol) String() string {
 	return proto.EnumName(EmailProtocol_name, int32(x))
 }
-
-func (EmailProtocol) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{2}
-}
+func (EmailProtocol) EnumDescriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
 
 type From struct {
-	Host                 string   `protobuf:"bytes,10,opt,name=host,proto3" json:"host,omitempty"`
-	Module               string   `protobuf:"bytes,20,opt,name=module,proto3" json:"module,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Host   string `protobuf:"bytes,10,opt,name=host" json:"host,omitempty"`
+	Module string `protobuf:"bytes,20,opt,name=module" json:"module,omitempty"`
 }
 
-func (m *From) Reset()         { *m = From{} }
-func (m *From) String() string { return proto.CompactTextString(m) }
-func (*From) ProtoMessage()    {}
-func (*From) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{0}
-}
-
-func (m *From) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_From.Unmarshal(m, b)
-}
-func (m *From) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_From.Marshal(b, m, deterministic)
-}
-func (m *From) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_From.Merge(m, src)
-}
-func (m *From) XXX_Size() int {
-	return xxx_messageInfo_From.Size(m)
-}
-func (m *From) XXX_DiscardUnknown() {
-	xxx_messageInfo_From.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_From proto.InternalMessageInfo
+func (m *From) Reset()                    { *m = From{} }
+func (m *From) String() string            { return proto.CompactTextString(m) }
+func (*From) ProtoMessage()               {}
+func (*From) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
 
 func (m *From) GetHost() string {
 	if m != nil {
@@ -229,38 +192,15 @@ func (m *From) GetModule() string {
 }
 
 type DeviceConfigUpdatedMsg struct {
-	DeviceId             string   `protobuf:"bytes,10,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`
-	DeviceName           string   `protobuf:"bytes,20,opt,name=device_name,json=deviceName,proto3" json:"device_name,omitempty"`
-	Message              string   `protobuf:"bytes,30,opt,name=message,proto3" json:"message,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	DeviceId   string `protobuf:"bytes,10,opt,name=device_id,json=deviceId" json:"device_id,omitempty"`
+	DeviceName string `protobuf:"bytes,20,opt,name=device_name,json=deviceName" json:"device_name,omitempty"`
+	Message    string `protobuf:"bytes,30,opt,name=message" json:"message,omitempty"`
 }
 
-func (m *DeviceConfigUpdatedMsg) Reset()         { *m = DeviceConfigUpdatedMsg{} }
-func (m *DeviceConfigUpdatedMsg) String() string { return proto.CompactTextString(m) }
-func (*DeviceConfigUpdatedMsg) ProtoMessage()    {}
-func (*DeviceConfigUpdatedMsg) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{1}
-}
-
-func (m *DeviceConfigUpdatedMsg) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DeviceConfigUpdatedMsg.Unmarshal(m, b)
-}
-func (m *DeviceConfigUpdatedMsg) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DeviceConfigUpdatedMsg.Marshal(b, m, deterministic)
-}
-func (m *DeviceConfigUpdatedMsg) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeviceConfigUpdatedMsg.Merge(m, src)
-}
-func (m *DeviceConfigUpdatedMsg) XXX_Size() int {
-	return xxx_messageInfo_DeviceConfigUpdatedMsg.Size(m)
-}
-func (m *DeviceConfigUpdatedMsg) XXX_DiscardUnknown() {
-	xxx_messageInfo_DeviceConfigUpdatedMsg.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DeviceConfigUpdatedMsg proto.InternalMessageInfo
+func (m *DeviceConfigUpdatedMsg) Reset()                    { *m = DeviceConfigUpdatedMsg{} }
+func (m *DeviceConfigUpdatedMsg) String() string            { return proto.CompactTextString(m) }
+func (*DeviceConfigUpdatedMsg) ProtoMessage()               {}
+func (*DeviceConfigUpdatedMsg) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
 
 func (m *DeviceConfigUpdatedMsg) GetDeviceId() string {
 	if m != nil {
@@ -297,21 +237,23 @@ type Event struct {
 	Target   *Target          `protobuf:"bytes,50,opt,name=target" json:"target,omitempty"`
 }
 
-func (m *Event) Reset()         { *m = Event{} }
-func (m *Event) String() string { return proto.CompactTextString(m) }
-func (*Event) ProtoMessage()    {}
-func (*Event) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{2}
+func (m *Event) Reset()                    { *m = Event{} }
+func (m *Event) String() string            { return proto.CompactTextString(m) }
+func (*Event) ProtoMessage()               {}
+func (*Event) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
+
+type isEvent_Metadata interface {
+	isEvent_Metadata()
 }
 
-func (m *Event) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Event.Unmarshal(m, b)
+type Event_Wscm struct {
+	Wscm *WorkflowStateChangedMsg `protobuf:"bytes,210,opt,name=wscm,oneof"`
 }
-func (m *Event) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Event.Marshal(b, m, deterministic)
+type Event_Dcum struct {
+	Dcum *DeviceConfigUpdatedMsg `protobuf:"bytes,220,opt,name=dcum,oneof"`
 }
-func (m *Event) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Event.Merge(m, src)
+type Event_Wsscm struct {
+	Wsscm *WorkflowStageStateChangedMsg `protobuf:"bytes,230,opt,name=wsscm,oneof"`
 }
 type Event_Bpm struct {
 	Bpm *BaasTestMsg `protobuf:"bytes,240,opt,name=bpm,oneof"`
@@ -328,8 +270,6 @@ func (m *Event) GetMetadata() isEvent_Metadata {
 	}
 	return nil
 }
-
-var xxx_messageInfo_Event proto.InternalMessageInfo
 
 func (m *Event) GetId() string {
 	if m != nil {
@@ -357,35 +297,6 @@ func (m *Event) GetTimestamp() int64 {
 		return m.Timestamp
 	}
 	return 0
-}
-
-type isEvent_Metadata interface {
-	isEvent_Metadata()
-}
-
-type Event_Wscm struct {
-	Wscm *WorkflowStateChangedMsg `protobuf:"bytes,210,opt,name=wscm,proto3,oneof"`
-}
-
-type Event_Dcum struct {
-	Dcum *DeviceConfigUpdatedMsg `protobuf:"bytes,220,opt,name=dcum,proto3,oneof"`
-}
-
-type Event_Wsscm struct {
-	Wsscm *WorkflowStageStateChangedMsg `protobuf:"bytes,230,opt,name=wsscm,proto3,oneof"`
-}
-
-func (*Event_Wscm) isEvent_Metadata() {}
-
-func (*Event_Dcum) isEvent_Metadata() {}
-
-func (*Event_Wsscm) isEvent_Metadata() {}
-
-func (m *Event) GetMetadata() isEvent_Metadata {
-	if m != nil {
-		return m.Metadata
-	}
-	return nil
 }
 
 func (m *Event) GetWscm() *WorkflowStateChangedMsg {
@@ -423,9 +334,9 @@ func (m *Event) GetTarget() *Target {
 	return nil
 }
 
-// XXX_OneofWrappers is for the internal use of the proto package.
-func (*Event) XXX_OneofWrappers() []interface{} {
-	return []interface{}{
+// XXX_OneofFuncs is for the internal use of the proto package.
+func (*Event) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
+	return _Event_OneofMarshaler, _Event_OneofUnmarshaler, _Event_OneofSizer, []interface{}{
 		(*Event_Wscm)(nil),
 		(*Event_Dcum)(nil),
 		(*Event_Wsscm)(nil),
@@ -535,23 +446,19 @@ func _Event_OneofSizer(msg proto.Message) (n int) {
 	return n
 }
 
-func (m *EmailServerCfg) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_EmailServerCfg.Unmarshal(m, b)
-}
-func (m *EmailServerCfg) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_EmailServerCfg.Marshal(b, m, deterministic)
-}
-func (m *EmailServerCfg) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EmailServerCfg.Merge(m, src)
-}
-func (m *EmailServerCfg) XXX_Size() int {
-	return xxx_messageInfo_EmailServerCfg.Size(m)
-}
-func (m *EmailServerCfg) XXX_DiscardUnknown() {
-	xxx_messageInfo_EmailServerCfg.DiscardUnknown(m)
+type EmailServerCfg struct {
+	Account  string        `protobuf:"bytes,10,opt,name=account" json:"account,omitempty"`
+	Password string        `protobuf:"bytes,20,opt,name=password" json:"password,omitempty"`
+	Host     string        `protobuf:"bytes,30,opt,name=host" json:"host,omitempty"`
+	Port     int32         `protobuf:"varint,40,opt,name=port" json:"port,omitempty"`
+	Protocol EmailProtocol `protobuf:"varint,50,opt,name=protocol,enum=eventti.EmailProtocol" json:"protocol,omitempty"`
+	Timeout  int32         `protobuf:"varint,60,opt,name=timeout" json:"timeout,omitempty"`
 }
 
-var xxx_messageInfo_EmailServerCfg proto.InternalMessageInfo
+func (m *EmailServerCfg) Reset()                    { *m = EmailServerCfg{} }
+func (m *EmailServerCfg) String() string            { return proto.CompactTextString(m) }
+func (*EmailServerCfg) ProtoMessage()               {}
+func (*EmailServerCfg) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
 
 func (m *EmailServerCfg) GetAccount() string {
 	if m != nil {
@@ -596,70 +503,24 @@ func (m *EmailServerCfg) GetTimeout() int32 {
 }
 
 type SmsCfg struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *SmsCfg) Reset()         { *m = SmsCfg{} }
-func (m *SmsCfg) String() string { return proto.CompactTextString(m) }
-func (*SmsCfg) ProtoMessage()    {}
-func (*SmsCfg) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{4}
-}
-
-func (m *SmsCfg) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SmsCfg.Unmarshal(m, b)
-}
-func (m *SmsCfg) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SmsCfg.Marshal(b, m, deterministic)
-}
-func (m *SmsCfg) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SmsCfg.Merge(m, src)
-}
-func (m *SmsCfg) XXX_Size() int {
-	return xxx_messageInfo_SmsCfg.Size(m)
-}
-func (m *SmsCfg) XXX_DiscardUnknown() {
-	xxx_messageInfo_SmsCfg.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SmsCfg proto.InternalMessageInfo
+func (m *SmsCfg) Reset()                    { *m = SmsCfg{} }
+func (m *SmsCfg) String() string            { return proto.CompactTextString(m) }
+func (*SmsCfg) ProtoMessage()               {}
+func (*SmsCfg) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
 
 type GuosenPushOverCfg struct {
-	Username             string   `protobuf:"bytes,10,opt,name=username,proto3" json:"username,omitempty"`
-	Password             string   `protobuf:"bytes,20,opt,name=password,proto3" json:"password,omitempty"`
-	LoginUrl             string   `protobuf:"bytes,30,opt,name=loginUrl,proto3" json:"loginUrl,omitempty"`
-	IssuedUrl            string   `protobuf:"bytes,40,opt,name=issuedUrl,proto3" json:"issuedUrl,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Username  string `protobuf:"bytes,10,opt,name=username" json:"username,omitempty"`
+	Password  string `protobuf:"bytes,20,opt,name=password" json:"password,omitempty"`
+	LoginUrl  string `protobuf:"bytes,30,opt,name=loginUrl" json:"loginUrl,omitempty"`
+	IssuedUrl string `protobuf:"bytes,40,opt,name=issuedUrl" json:"issuedUrl,omitempty"`
 }
 
-func (m *GuosenPushOverCfg) Reset()         { *m = GuosenPushOverCfg{} }
-func (m *GuosenPushOverCfg) String() string { return proto.CompactTextString(m) }
-func (*GuosenPushOverCfg) ProtoMessage()    {}
-func (*GuosenPushOverCfg) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{5}
-}
-
-func (m *GuosenPushOverCfg) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GuosenPushOverCfg.Unmarshal(m, b)
-}
-func (m *GuosenPushOverCfg) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GuosenPushOverCfg.Marshal(b, m, deterministic)
-}
-func (m *GuosenPushOverCfg) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GuosenPushOverCfg.Merge(m, src)
-}
-func (m *GuosenPushOverCfg) XXX_Size() int {
-	return xxx_messageInfo_GuosenPushOverCfg.Size(m)
-}
-func (m *GuosenPushOverCfg) XXX_DiscardUnknown() {
-	xxx_messageInfo_GuosenPushOverCfg.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GuosenPushOverCfg proto.InternalMessageInfo
+func (m *GuosenPushOverCfg) Reset()                    { *m = GuosenPushOverCfg{} }
+func (m *GuosenPushOverCfg) String() string            { return proto.CompactTextString(m) }
+func (*GuosenPushOverCfg) ProtoMessage()               {}
+func (*GuosenPushOverCfg) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
 
 func (m *GuosenPushOverCfg) GetUsername() string {
 	if m != nil {
@@ -690,37 +551,14 @@ func (m *GuosenPushOverCfg) GetIssuedUrl() string {
 }
 
 type WSServerCfg struct {
-	Port                 string   `protobuf:"bytes,10,opt,name=port,proto3" json:"port,omitempty"`
-	Path                 string   `protobuf:"bytes,20,opt,name=path,proto3" json:"path,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Port string `protobuf:"bytes,10,opt,name=port" json:"port,omitempty"`
+	Path string `protobuf:"bytes,20,opt,name=path" json:"path,omitempty"`
 }
 
-func (m *WSServerCfg) Reset()         { *m = WSServerCfg{} }
-func (m *WSServerCfg) String() string { return proto.CompactTextString(m) }
-func (*WSServerCfg) ProtoMessage()    {}
-func (*WSServerCfg) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{6}
-}
-
-func (m *WSServerCfg) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_WSServerCfg.Unmarshal(m, b)
-}
-func (m *WSServerCfg) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_WSServerCfg.Marshal(b, m, deterministic)
-}
-func (m *WSServerCfg) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_WSServerCfg.Merge(m, src)
-}
-func (m *WSServerCfg) XXX_Size() int {
-	return xxx_messageInfo_WSServerCfg.Size(m)
-}
-func (m *WSServerCfg) XXX_DiscardUnknown() {
-	xxx_messageInfo_WSServerCfg.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_WSServerCfg proto.InternalMessageInfo
+func (m *WSServerCfg) Reset()                    { *m = WSServerCfg{} }
+func (m *WSServerCfg) String() string            { return proto.CompactTextString(m) }
+func (*WSServerCfg) ProtoMessage()               {}
+func (*WSServerCfg) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
 
 func (m *WSServerCfg) GetPort() string {
 	if m != nil {
@@ -737,37 +575,14 @@ func (m *WSServerCfg) GetPath() string {
 }
 
 type Target struct {
-	Users                []string `protobuf:"bytes,10,rep,name=users,proto3" json:"users,omitempty"`
-	Roles                []string `protobuf:"bytes,20,rep,name=roles,proto3" json:"roles,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Users []string `protobuf:"bytes,10,rep,name=users" json:"users,omitempty"`
+	Roles []string `protobuf:"bytes,20,rep,name=roles" json:"roles,omitempty"`
 }
 
-func (m *Target) Reset()         { *m = Target{} }
-func (m *Target) String() string { return proto.CompactTextString(m) }
-func (*Target) ProtoMessage()    {}
-func (*Target) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{7}
-}
-
-func (m *Target) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Target.Unmarshal(m, b)
-}
-func (m *Target) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Target.Marshal(b, m, deterministic)
-}
-func (m *Target) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Target.Merge(m, src)
-}
-func (m *Target) XXX_Size() int {
-	return xxx_messageInfo_Target.Size(m)
-}
-func (m *Target) XXX_DiscardUnknown() {
-	xxx_messageInfo_Target.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Target proto.InternalMessageInfo
+func (m *Target) Reset()                    { *m = Target{} }
+func (m *Target) String() string            { return proto.CompactTextString(m) }
+func (*Target) ProtoMessage()               {}
+func (*Target) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
 
 func (m *Target) GetUsers() []string {
 	if m != nil {
@@ -784,36 +599,13 @@ func (m *Target) GetRoles() []string {
 }
 
 type CreateNotificationChannelReq struct {
-	Nc                   *NotificationChannel `protobuf:"bytes,10,opt,name=nc,proto3" json:"nc,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
-	XXX_unrecognized     []byte               `json:"-"`
-	XXX_sizecache        int32                `json:"-"`
+	Nc *NotificationChannel `protobuf:"bytes,10,opt,name=nc" json:"nc,omitempty"`
 }
 
-func (m *CreateNotificationChannelReq) Reset()         { *m = CreateNotificationChannelReq{} }
-func (m *CreateNotificationChannelReq) String() string { return proto.CompactTextString(m) }
-func (*CreateNotificationChannelReq) ProtoMessage()    {}
-func (*CreateNotificationChannelReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{8}
-}
-
-func (m *CreateNotificationChannelReq) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CreateNotificationChannelReq.Unmarshal(m, b)
-}
-func (m *CreateNotificationChannelReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CreateNotificationChannelReq.Marshal(b, m, deterministic)
-}
-func (m *CreateNotificationChannelReq) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateNotificationChannelReq.Merge(m, src)
-}
-func (m *CreateNotificationChannelReq) XXX_Size() int {
-	return xxx_messageInfo_CreateNotificationChannelReq.Size(m)
-}
-func (m *CreateNotificationChannelReq) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreateNotificationChannelReq.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_CreateNotificationChannelReq proto.InternalMessageInfo
+func (m *CreateNotificationChannelReq) Reset()                    { *m = CreateNotificationChannelReq{} }
+func (m *CreateNotificationChannelReq) String() string            { return proto.CompactTextString(m) }
+func (*CreateNotificationChannelReq) ProtoMessage()               {}
+func (*CreateNotificationChannelReq) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
 
 func (m *CreateNotificationChannelReq) GetNc() *NotificationChannel {
 	if m != nil {
@@ -823,47 +615,53 @@ func (m *CreateNotificationChannelReq) GetNc() *NotificationChannel {
 }
 
 type NotificationChannel struct {
-	Id          string                  `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name        string                  `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`
-	Etypes      []EventType             `protobuf:"varint,15,rep,packed,name=etypes,proto3,enum=eventti.EventType" json:"etypes,omitempty"`
-	Type        NotificationChannelType `protobuf:"varint,20,opt,name=type,proto3,enum=eventti.NotificationChannelType" json:"type,omitempty"`
-	Description string                  `protobuf:"bytes,25,opt,name=description,proto3" json:"description,omitempty"`
-	Target      *Target                 `protobuf:"bytes,30,opt,name=target,proto3" json:"target,omitempty"`
+	Id          string                  `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Name        string                  `protobuf:"bytes,10,opt,name=name" json:"name,omitempty"`
+	Etypes      []EventType             `protobuf:"varint,15,rep,packed,name=etypes,enum=eventti.EventType" json:"etypes,omitempty"`
+	Type        NotificationChannelType `protobuf:"varint,20,opt,name=type,enum=eventti.NotificationChannelType" json:"type,omitempty"`
+	Description string                  `protobuf:"bytes,25,opt,name=description" json:"description,omitempty"`
+	Target      *Target                 `protobuf:"bytes,30,opt,name=target" json:"target,omitempty"`
 	// Types that are valid to be assigned to Cfg:
 	//	*NotificationChannel_EmailServerCfg
 	//	*NotificationChannel_SmsCfg
 	//	*NotificationChannel_GpoCfg
 	//	*NotificationChannel_WsServerCfg
-	Cfg                  isNotificationChannel_Cfg `protobuf_oneof:"cfg"`
-	XXX_NoUnkeyedLiteral struct{}                  `json:"-"`
-	XXX_unrecognized     []byte                    `json:"-"`
-	XXX_sizecache        int32                     `json:"-"`
+	Cfg isNotificationChannel_Cfg `protobuf_oneof:"cfg"`
 }
 
-func (m *NotificationChannel) Reset()         { *m = NotificationChannel{} }
-func (m *NotificationChannel) String() string { return proto.CompactTextString(m) }
-func (*NotificationChannel) ProtoMessage()    {}
-func (*NotificationChannel) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{9}
+func (m *NotificationChannel) Reset()                    { *m = NotificationChannel{} }
+func (m *NotificationChannel) String() string            { return proto.CompactTextString(m) }
+func (*NotificationChannel) ProtoMessage()               {}
+func (*NotificationChannel) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9} }
+
+type isNotificationChannel_Cfg interface {
+	isNotificationChannel_Cfg()
 }
 
-func (m *NotificationChannel) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_NotificationChannel.Unmarshal(m, b)
+type NotificationChannel_EmailServerCfg struct {
+	EmailServerCfg *EmailServerCfg `protobuf:"bytes,40,opt,name=email_server_cfg,json=emailServerCfg,oneof"`
 }
-func (m *NotificationChannel) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_NotificationChannel.Marshal(b, m, deterministic)
+type NotificationChannel_SmsCfg struct {
+	SmsCfg *SmsCfg `protobuf:"bytes,50,opt,name=sms_cfg,json=smsCfg,oneof"`
 }
-func (m *NotificationChannel) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_NotificationChannel.Merge(m, src)
+type NotificationChannel_GpoCfg struct {
+	GpoCfg *GuosenPushOverCfg `protobuf:"bytes,60,opt,name=gpo_cfg,json=gpoCfg,oneof"`
 }
-func (m *NotificationChannel) XXX_Size() int {
-	return xxx_messageInfo_NotificationChannel.Size(m)
-}
-func (m *NotificationChannel) XXX_DiscardUnknown() {
-	xxx_messageInfo_NotificationChannel.DiscardUnknown(m)
+type NotificationChannel_WsServerCfg struct {
+	WsServerCfg *WSServerCfg `protobuf:"bytes,70,opt,name=ws_server_cfg,json=wsServerCfg,oneof"`
 }
 
-var xxx_messageInfo_NotificationChannel proto.InternalMessageInfo
+func (*NotificationChannel_EmailServerCfg) isNotificationChannel_Cfg() {}
+func (*NotificationChannel_SmsCfg) isNotificationChannel_Cfg()         {}
+func (*NotificationChannel_GpoCfg) isNotificationChannel_Cfg()         {}
+func (*NotificationChannel_WsServerCfg) isNotificationChannel_Cfg()    {}
+
+func (m *NotificationChannel) GetCfg() isNotificationChannel_Cfg {
+	if m != nil {
+		return m.Cfg
+	}
+	return nil
+}
 
 func (m *NotificationChannel) GetId() string {
 	if m != nil {
@@ -907,41 +705,6 @@ func (m *NotificationChannel) GetTarget() *Target {
 	return nil
 }
 
-type isNotificationChannel_Cfg interface {
-	isNotificationChannel_Cfg()
-}
-
-type NotificationChannel_EmailServerCfg struct {
-	EmailServerCfg *EmailServerCfg `protobuf:"bytes,40,opt,name=email_server_cfg,json=emailServerCfg,proto3,oneof"`
-}
-
-type NotificationChannel_SmsCfg struct {
-	SmsCfg *SmsCfg `protobuf:"bytes,50,opt,name=sms_cfg,json=smsCfg,proto3,oneof"`
-}
-
-type NotificationChannel_GpoCfg struct {
-	GpoCfg *GuosenPushOverCfg `protobuf:"bytes,60,opt,name=gpo_cfg,json=gpoCfg,proto3,oneof"`
-}
-
-type NotificationChannel_WsServerCfg struct {
-	WsServerCfg *WSServerCfg `protobuf:"bytes,70,opt,name=ws_server_cfg,json=wsServerCfg,proto3,oneof"`
-}
-
-func (*NotificationChannel_EmailServerCfg) isNotificationChannel_Cfg() {}
-
-func (*NotificationChannel_SmsCfg) isNotificationChannel_Cfg() {}
-
-func (*NotificationChannel_GpoCfg) isNotificationChannel_Cfg() {}
-
-func (*NotificationChannel_WsServerCfg) isNotificationChannel_Cfg() {}
-
-func (m *NotificationChannel) GetCfg() isNotificationChannel_Cfg {
-	if m != nil {
-		return m.Cfg
-	}
-	return nil
-}
-
 func (m *NotificationChannel) GetEmailServerCfg() *EmailServerCfg {
 	if x, ok := m.GetCfg().(*NotificationChannel_EmailServerCfg); ok {
 		return x.EmailServerCfg
@@ -970,9 +733,9 @@ func (m *NotificationChannel) GetWsServerCfg() *WSServerCfg {
 	return nil
 }
 
-// XXX_OneofWrappers is for the internal use of the proto package.
-func (*NotificationChannel) XXX_OneofWrappers() []interface{} {
-	return []interface{}{
+// XXX_OneofFuncs is for the internal use of the proto package.
+func (*NotificationChannel) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
+	return _NotificationChannel_OneofMarshaler, _NotificationChannel_OneofUnmarshaler, _NotificationChannel_OneofSizer, []interface{}{
 		(*NotificationChannel_EmailServerCfg)(nil),
 		(*NotificationChannel_SmsCfg)(nil),
 		(*NotificationChannel_GpoCfg)(nil),
@@ -980,38 +743,117 @@ func (*NotificationChannel) XXX_OneofWrappers() []interface{} {
 	}
 }
 
+func _NotificationChannel_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
+	m := msg.(*NotificationChannel)
+	// cfg
+	switch x := m.Cfg.(type) {
+	case *NotificationChannel_EmailServerCfg:
+		b.EncodeVarint(40<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.EmailServerCfg); err != nil {
+			return err
+		}
+	case *NotificationChannel_SmsCfg:
+		b.EncodeVarint(50<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.SmsCfg); err != nil {
+			return err
+		}
+	case *NotificationChannel_GpoCfg:
+		b.EncodeVarint(60<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.GpoCfg); err != nil {
+			return err
+		}
+	case *NotificationChannel_WsServerCfg:
+		b.EncodeVarint(70<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.WsServerCfg); err != nil {
+			return err
+		}
+	case nil:
+	default:
+		return fmt.Errorf("NotificationChannel.Cfg has unexpected type %T", x)
+	}
+	return nil
+}
+
+func _NotificationChannel_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
+	m := msg.(*NotificationChannel)
+	switch tag {
+	case 40: // cfg.email_server_cfg
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(EmailServerCfg)
+		err := b.DecodeMessage(msg)
+		m.Cfg = &NotificationChannel_EmailServerCfg{msg}
+		return true, err
+	case 50: // cfg.sms_cfg
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(SmsCfg)
+		err := b.DecodeMessage(msg)
+		m.Cfg = &NotificationChannel_SmsCfg{msg}
+		return true, err
+	case 60: // cfg.gpo_cfg
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(GuosenPushOverCfg)
+		err := b.DecodeMessage(msg)
+		m.Cfg = &NotificationChannel_GpoCfg{msg}
+		return true, err
+	case 70: // cfg.ws_server_cfg
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(WSServerCfg)
+		err := b.DecodeMessage(msg)
+		m.Cfg = &NotificationChannel_WsServerCfg{msg}
+		return true, err
+	default:
+		return false, nil
+	}
+}
+
+func _NotificationChannel_OneofSizer(msg proto.Message) (n int) {
+	m := msg.(*NotificationChannel)
+	// cfg
+	switch x := m.Cfg.(type) {
+	case *NotificationChannel_EmailServerCfg:
+		s := proto.Size(x.EmailServerCfg)
+		n += proto.SizeVarint(40<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *NotificationChannel_SmsCfg:
+		s := proto.Size(x.SmsCfg)
+		n += proto.SizeVarint(50<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *NotificationChannel_GpoCfg:
+		s := proto.Size(x.GpoCfg)
+		n += proto.SizeVarint(60<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *NotificationChannel_WsServerCfg:
+		s := proto.Size(x.WsServerCfg)
+		n += proto.SizeVarint(70<<3 | proto.WireBytes)
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case nil:
+	default:
+		panic(fmt.Sprintf("proto: unexpected type %T in oneof", x))
+	}
+	return n
+}
+
 type CreateNotificationChannelRes struct {
-	Ret                  *common.BaseRet `protobuf:"bytes,10,opt,name=ret,proto3" json:"ret,omitempty"`
-	Id                   int32           `protobuf:"varint,20,opt,name=id,proto3" json:"id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
-	XXX_unrecognized     []byte          `json:"-"`
-	XXX_sizecache        int32           `json:"-"`
+	Ret *common.BaseRet `protobuf:"bytes,10,opt,name=ret" json:"ret,omitempty"`
+	Id  int32           `protobuf:"varint,20,opt,name=id" json:"id,omitempty"`
 }
 
-func (m *CreateNotificationChannelRes) Reset()         { *m = CreateNotificationChannelRes{} }
-func (m *CreateNotificationChannelRes) String() string { return proto.CompactTextString(m) }
-func (*CreateNotificationChannelRes) ProtoMessage()    {}
-func (*CreateNotificationChannelRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{10}
-}
-
-func (m *CreateNotificationChannelRes) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CreateNotificationChannelRes.Unmarshal(m, b)
-}
-func (m *CreateNotificationChannelRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CreateNotificationChannelRes.Marshal(b, m, deterministic)
-}
-func (m *CreateNotificationChannelRes) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateNotificationChannelRes.Merge(m, src)
-}
-func (m *CreateNotificationChannelRes) XXX_Size() int {
-	return xxx_messageInfo_CreateNotificationChannelRes.Size(m)
-}
-func (m *CreateNotificationChannelRes) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreateNotificationChannelRes.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_CreateNotificationChannelRes proto.InternalMessageInfo
+func (m *CreateNotificationChannelRes) Reset()                    { *m = CreateNotificationChannelRes{} }
+func (m *CreateNotificationChannelRes) String() string            { return proto.CompactTextString(m) }
+func (*CreateNotificationChannelRes) ProtoMessage()               {}
+func (*CreateNotificationChannelRes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10} }
 
 func (m *CreateNotificationChannelRes) GetRet() *common.BaseRet {
 	if m != nil {
@@ -1028,36 +870,13 @@ func (m *CreateNotificationChannelRes) GetId() int32 {
 }
 
 type GetNotificationChannelReq struct {
-	Page                 *common.Page `protobuf:"bytes,10,opt,name=page,proto3" json:"page,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
-	XXX_unrecognized     []byte       `json:"-"`
-	XXX_sizecache        int32        `json:"-"`
+	Page *common.Page `protobuf:"bytes,10,opt,name=page" json:"page,omitempty"`
 }
 
-func (m *GetNotificationChannelReq) Reset()         { *m = GetNotificationChannelReq{} }
-func (m *GetNotificationChannelReq) String() string { return proto.CompactTextString(m) }
-func (*GetNotificationChannelReq) ProtoMessage()    {}
-func (*GetNotificationChannelReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{11}
-}
-
-func (m *GetNotificationChannelReq) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GetNotificationChannelReq.Unmarshal(m, b)
-}
-func (m *GetNotificationChannelReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GetNotificationChannelReq.Marshal(b, m, deterministic)
-}
-func (m *GetNotificationChannelReq) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetNotificationChannelReq.Merge(m, src)
-}
-func (m *GetNotificationChannelReq) XXX_Size() int {
-	return xxx_messageInfo_GetNotificationChannelReq.Size(m)
-}
-func (m *GetNotificationChannelReq) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetNotificationChannelReq.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetNotificationChannelReq proto.InternalMessageInfo
+func (m *GetNotificationChannelReq) Reset()                    { *m = GetNotificationChannelReq{} }
+func (m *GetNotificationChannelReq) String() string            { return proto.CompactTextString(m) }
+func (*GetNotificationChannelReq) ProtoMessage()               {}
+func (*GetNotificationChannelReq) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11} }
 
 func (m *GetNotificationChannelReq) GetPage() *common.Page {
 	if m != nil {
@@ -1067,39 +886,16 @@ func (m *GetNotificationChannelReq) GetPage() *common.Page {
 }
 
 type GetNotificationChannelRes struct {
-	Ret                  *common.BaseRet        `protobuf:"bytes,10,opt,name=ret,proto3" json:"ret,omitempty"`
-	Page                 *common.Page           `protobuf:"bytes,20,opt,name=page,proto3" json:"page,omitempty"`
-	Total                int32                  `protobuf:"varint,30,opt,name=total,proto3" json:"total,omitempty"`
-	Ncs                  []*NotificationChannel `protobuf:"bytes,40,rep,name=ncs,proto3" json:"ncs,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}               `json:"-"`
-	XXX_unrecognized     []byte                 `json:"-"`
-	XXX_sizecache        int32                  `json:"-"`
+	Ret   *common.BaseRet        `protobuf:"bytes,10,opt,name=ret" json:"ret,omitempty"`
+	Page  *common.Page           `protobuf:"bytes,20,opt,name=page" json:"page,omitempty"`
+	Total int32                  `protobuf:"varint,30,opt,name=total" json:"total,omitempty"`
+	Ncs   []*NotificationChannel `protobuf:"bytes,40,rep,name=ncs" json:"ncs,omitempty"`
 }
 
-func (m *GetNotificationChannelRes) Reset()         { *m = GetNotificationChannelRes{} }
-func (m *GetNotificationChannelRes) String() string { return proto.CompactTextString(m) }
-func (*GetNotificationChannelRes) ProtoMessage()    {}
-func (*GetNotificationChannelRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{12}
-}
-
-func (m *GetNotificationChannelRes) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GetNotificationChannelRes.Unmarshal(m, b)
-}
-func (m *GetNotificationChannelRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GetNotificationChannelRes.Marshal(b, m, deterministic)
-}
-func (m *GetNotificationChannelRes) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetNotificationChannelRes.Merge(m, src)
-}
-func (m *GetNotificationChannelRes) XXX_Size() int {
-	return xxx_messageInfo_GetNotificationChannelRes.Size(m)
-}
-func (m *GetNotificationChannelRes) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetNotificationChannelRes.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetNotificationChannelRes proto.InternalMessageInfo
+func (m *GetNotificationChannelRes) Reset()                    { *m = GetNotificationChannelRes{} }
+func (m *GetNotificationChannelRes) String() string            { return proto.CompactTextString(m) }
+func (*GetNotificationChannelRes) ProtoMessage()               {}
+func (*GetNotificationChannelRes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12} }
 
 func (m *GetNotificationChannelRes) GetRet() *common.BaseRet {
 	if m != nil {
@@ -1130,37 +926,14 @@ func (m *GetNotificationChannelRes) GetNcs() []*NotificationChannel {
 }
 
 type CandidateCreatedValue struct {
-	Device               string   `protobuf:"bytes,10,opt,name=device,proto3" json:"device,omitempty"`
-	Candidate            string   `protobuf:"bytes,20,opt,name=candidate,proto3" json:"candidate,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Device    string `protobuf:"bytes,10,opt,name=device" json:"device,omitempty"`
+	Candidate string `protobuf:"bytes,20,opt,name=candidate" json:"candidate,omitempty"`
 }
 
-func (m *CandidateCreatedValue) Reset()         { *m = CandidateCreatedValue{} }
-func (m *CandidateCreatedValue) String() string { return proto.CompactTextString(m) }
-func (*CandidateCreatedValue) ProtoMessage()    {}
-func (*CandidateCreatedValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{13}
-}
-
-func (m *CandidateCreatedValue) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CandidateCreatedValue.Unmarshal(m, b)
-}
-func (m *CandidateCreatedValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CandidateCreatedValue.Marshal(b, m, deterministic)
-}
-func (m *CandidateCreatedValue) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CandidateCreatedValue.Merge(m, src)
-}
-func (m *CandidateCreatedValue) XXX_Size() int {
-	return xxx_messageInfo_CandidateCreatedValue.Size(m)
-}
-func (m *CandidateCreatedValue) XXX_DiscardUnknown() {
-	xxx_messageInfo_CandidateCreatedValue.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_CandidateCreatedValue proto.InternalMessageInfo
+func (m *CandidateCreatedValue) Reset()                    { *m = CandidateCreatedValue{} }
+func (m *CandidateCreatedValue) String() string            { return proto.CompactTextString(m) }
+func (*CandidateCreatedValue) ProtoMessage()               {}
+func (*CandidateCreatedValue) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13} }
 
 func (m *CandidateCreatedValue) GetDevice() string {
 	if m != nil {
@@ -1177,37 +950,14 @@ func (m *CandidateCreatedValue) GetCandidate() string {
 }
 
 type StateChangedValue struct {
-	Device               string          `protobuf:"bytes,10,opt,name=device,proto3" json:"device,omitempty"`
-	State                nap.DeviceState `protobuf:"varint,20,opt,name=state,proto3,enum=nap.DeviceState" json:"state,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
-	XXX_unrecognized     []byte          `json:"-"`
-	XXX_sizecache        int32           `json:"-"`
+	Device string          `protobuf:"bytes,10,opt,name=device" json:"device,omitempty"`
+	State  nap.DeviceState `protobuf:"varint,20,opt,name=state,enum=nap.DeviceState" json:"state,omitempty"`
 }
 
-func (m *StateChangedValue) Reset()         { *m = StateChangedValue{} }
-func (m *StateChangedValue) String() string { return proto.CompactTextString(m) }
-func (*StateChangedValue) ProtoMessage()    {}
-func (*StateChangedValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{14}
-}
-
-func (m *StateChangedValue) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_StateChangedValue.Unmarshal(m, b)
-}
-func (m *StateChangedValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_StateChangedValue.Marshal(b, m, deterministic)
-}
-func (m *StateChangedValue) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_StateChangedValue.Merge(m, src)
-}
-func (m *StateChangedValue) XXX_Size() int {
-	return xxx_messageInfo_StateChangedValue.Size(m)
-}
-func (m *StateChangedValue) XXX_DiscardUnknown() {
-	xxx_messageInfo_StateChangedValue.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_StateChangedValue proto.InternalMessageInfo
+func (m *StateChangedValue) Reset()                    { *m = StateChangedValue{} }
+func (m *StateChangedValue) String() string            { return proto.CompactTextString(m) }
+func (*StateChangedValue) ProtoMessage()               {}
+func (*StateChangedValue) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{14} }
 
 func (m *StateChangedValue) GetDevice() string {
 	if m != nil {
@@ -1224,38 +974,15 @@ func (m *StateChangedValue) GetState() nap.DeviceState {
 }
 
 type TicketCreatedValue struct {
-	Ticket               string   `protobuf:"bytes,10,opt,name=ticket,proto3" json:"ticket,omitempty"`
-	Owner                string   `protobuf:"bytes,20,opt,name=owner,proto3" json:"owner,omitempty"`
-	Cap                  string   `protobuf:"bytes,30,opt,name=cap,proto3" json:"cap,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Ticket string `protobuf:"bytes,10,opt,name=ticket" json:"ticket,omitempty"`
+	Owner  string `protobuf:"bytes,20,opt,name=owner" json:"owner,omitempty"`
+	Cap    string `protobuf:"bytes,30,opt,name=cap" json:"cap,omitempty"`
 }
 
-func (m *TicketCreatedValue) Reset()         { *m = TicketCreatedValue{} }
-func (m *TicketCreatedValue) String() string { return proto.CompactTextString(m) }
-func (*TicketCreatedValue) ProtoMessage()    {}
-func (*TicketCreatedValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{15}
-}
-
-func (m *TicketCreatedValue) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_TicketCreatedValue.Unmarshal(m, b)
-}
-func (m *TicketCreatedValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_TicketCreatedValue.Marshal(b, m, deterministic)
-}
-func (m *TicketCreatedValue) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TicketCreatedValue.Merge(m, src)
-}
-func (m *TicketCreatedValue) XXX_Size() int {
-	return xxx_messageInfo_TicketCreatedValue.Size(m)
-}
-func (m *TicketCreatedValue) XXX_DiscardUnknown() {
-	xxx_messageInfo_TicketCreatedValue.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_TicketCreatedValue proto.InternalMessageInfo
+func (m *TicketCreatedValue) Reset()                    { *m = TicketCreatedValue{} }
+func (m *TicketCreatedValue) String() string            { return proto.CompactTextString(m) }
+func (*TicketCreatedValue) ProtoMessage()               {}
+func (*TicketCreatedValue) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15} }
 
 func (m *TicketCreatedValue) GetTicket() string {
 	if m != nil {
@@ -1279,39 +1006,16 @@ func (m *TicketCreatedValue) GetCap() string {
 }
 
 type TicketExpireNotifyValue struct {
-	Ticket               string   `protobuf:"bytes,10,opt,name=ticket,proto3" json:"ticket,omitempty"`
-	Owner                string   `protobuf:"bytes,20,opt,name=owner,proto3" json:"owner,omitempty"`
-	Expire               int64    `protobuf:"varint,30,opt,name=expire,proto3" json:"expire,omitempty"`
-	Cap                  string   `protobuf:"bytes,40,opt,name=cap,proto3" json:"cap,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Ticket string `protobuf:"bytes,10,opt,name=ticket" json:"ticket,omitempty"`
+	Owner  string `protobuf:"bytes,20,opt,name=owner" json:"owner,omitempty"`
+	Expire int64  `protobuf:"varint,30,opt,name=expire" json:"expire,omitempty"`
+	Cap    string `protobuf:"bytes,40,opt,name=cap" json:"cap,omitempty"`
 }
 
-func (m *TicketExpireNotifyValue) Reset()         { *m = TicketExpireNotifyValue{} }
-func (m *TicketExpireNotifyValue) String() string { return proto.CompactTextString(m) }
-func (*TicketExpireNotifyValue) ProtoMessage()    {}
-func (*TicketExpireNotifyValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{16}
-}
-
-func (m *TicketExpireNotifyValue) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_TicketExpireNotifyValue.Unmarshal(m, b)
-}
-func (m *TicketExpireNotifyValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_TicketExpireNotifyValue.Marshal(b, m, deterministic)
-}
-func (m *TicketExpireNotifyValue) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TicketExpireNotifyValue.Merge(m, src)
-}
-func (m *TicketExpireNotifyValue) XXX_Size() int {
-	return xxx_messageInfo_TicketExpireNotifyValue.Size(m)
-}
-func (m *TicketExpireNotifyValue) XXX_DiscardUnknown() {
-	xxx_messageInfo_TicketExpireNotifyValue.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_TicketExpireNotifyValue proto.InternalMessageInfo
+func (m *TicketExpireNotifyValue) Reset()                    { *m = TicketExpireNotifyValue{} }
+func (m *TicketExpireNotifyValue) String() string            { return proto.CompactTextString(m) }
+func (*TicketExpireNotifyValue) ProtoMessage()               {}
+func (*TicketExpireNotifyValue) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{16} }
 
 func (m *TicketExpireNotifyValue) GetTicket() string {
 	if m != nil {
@@ -1342,39 +1046,16 @@ func (m *TicketExpireNotifyValue) GetCap() string {
 }
 
 type TicketStateChangedValue struct {
-	Ticket               string                `protobuf:"bytes,10,opt,name=ticket,proto3" json:"ticket,omitempty"`
-	Before               nap.PolicyTicketStage `protobuf:"varint,20,opt,name=before,proto3,enum=nap.PolicyTicketStage" json:"before,omitempty"`
-	Current              nap.PolicyTicketStage `protobuf:"varint,30,opt,name=current,proto3,enum=nap.PolicyTicketStage" json:"current,omitempty"`
-	Cap                  string                `protobuf:"bytes,40,opt,name=cap,proto3" json:"cap,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
-	XXX_unrecognized     []byte                `json:"-"`
-	XXX_sizecache        int32                 `json:"-"`
+	Ticket  string                `protobuf:"bytes,10,opt,name=ticket" json:"ticket,omitempty"`
+	Before  nap.PolicyTicketStage `protobuf:"varint,20,opt,name=before,enum=nap.PolicyTicketStage" json:"before,omitempty"`
+	Current nap.PolicyTicketStage `protobuf:"varint,30,opt,name=current,enum=nap.PolicyTicketStage" json:"current,omitempty"`
+	Cap     string                `protobuf:"bytes,40,opt,name=cap" json:"cap,omitempty"`
 }
 
-func (m *TicketStateChangedValue) Reset()         { *m = TicketStateChangedValue{} }
-func (m *TicketStateChangedValue) String() string { return proto.CompactTextString(m) }
-func (*TicketStateChangedValue) ProtoMessage()    {}
-func (*TicketStateChangedValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{17}
-}
-
-func (m *TicketStateChangedValue) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_TicketStateChangedValue.Unmarshal(m, b)
-}
-func (m *TicketStateChangedValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_TicketStateChangedValue.Marshal(b, m, deterministic)
-}
-func (m *TicketStateChangedValue) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TicketStateChangedValue.Merge(m, src)
-}
-func (m *TicketStateChangedValue) XXX_Size() int {
-	return xxx_messageInfo_TicketStateChangedValue.Size(m)
-}
-func (m *TicketStateChangedValue) XXX_DiscardUnknown() {
-	xxx_messageInfo_TicketStateChangedValue.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_TicketStateChangedValue proto.InternalMessageInfo
+func (m *TicketStateChangedValue) Reset()                    { *m = TicketStateChangedValue{} }
+func (m *TicketStateChangedValue) String() string            { return proto.CompactTextString(m) }
+func (*TicketStateChangedValue) ProtoMessage()               {}
+func (*TicketStateChangedValue) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{17} }
 
 func (m *TicketStateChangedValue) GetTicket() string {
 	if m != nil {
@@ -1405,40 +1086,17 @@ func (m *TicketStateChangedValue) GetCap() string {
 }
 
 type WorkflowStateValue struct {
-	Name                 string                 `protobuf:"bytes,10,opt,name=name,proto3" json:"name,omitempty"`
-	Username             string                 `protobuf:"bytes,20,opt,name=username,proto3" json:"username,omitempty"`
-	State                workflow.WorkflowState `protobuf:"varint,30,opt,name=state,proto3,enum=workflow.WorkflowState" json:"state,omitempty"`
-	StartAt              int64                  `protobuf:"varint,40,opt,name=startAt,proto3" json:"startAt,omitempty"`
-	EndAt                int64                  `protobuf:"varint,50,opt,name=endAt,proto3" json:"endAt,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}               `json:"-"`
-	XXX_unrecognized     []byte                 `json:"-"`
-	XXX_sizecache        int32                  `json:"-"`
+	Name     string                 `protobuf:"bytes,10,opt,name=name" json:"name,omitempty"`
+	Username string                 `protobuf:"bytes,20,opt,name=username" json:"username,omitempty"`
+	State    workflow.WorkflowState `protobuf:"varint,30,opt,name=state,enum=workflow.WorkflowState" json:"state,omitempty"`
+	StartAt  int64                  `protobuf:"varint,40,opt,name=startAt" json:"startAt,omitempty"`
+	EndAt    int64                  `protobuf:"varint,50,opt,name=endAt" json:"endAt,omitempty"`
 }
 
-func (m *WorkflowStateValue) Reset()         { *m = WorkflowStateValue{} }
-func (m *WorkflowStateValue) String() string { return proto.CompactTextString(m) }
-func (*WorkflowStateValue) ProtoMessage()    {}
-func (*WorkflowStateValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{18}
-}
-
-func (m *WorkflowStateValue) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_WorkflowStateValue.Unmarshal(m, b)
-}
-func (m *WorkflowStateValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_WorkflowStateValue.Marshal(b, m, deterministic)
-}
-func (m *WorkflowStateValue) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_WorkflowStateValue.Merge(m, src)
-}
-func (m *WorkflowStateValue) XXX_Size() int {
-	return xxx_messageInfo_WorkflowStateValue.Size(m)
-}
-func (m *WorkflowStateValue) XXX_DiscardUnknown() {
-	xxx_messageInfo_WorkflowStateValue.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_WorkflowStateValue proto.InternalMessageInfo
+func (m *WorkflowStateValue) Reset()                    { *m = WorkflowStateValue{} }
+func (m *WorkflowStateValue) String() string            { return proto.CompactTextString(m) }
+func (*WorkflowStateValue) ProtoMessage()               {}
+func (*WorkflowStateValue) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{18} }
 
 func (m *WorkflowStateValue) GetName() string {
 	if m != nil {
@@ -1476,37 +1134,14 @@ func (m *WorkflowStateValue) GetEndAt() int64 {
 }
 
 type WorkflowStateChangedMsg struct {
-	Id                   string                `protobuf:"bytes,10,opt,name=id,proto3" json:"id,omitempty"`
-	Wsv                  []*WorkflowStateValue `protobuf:"bytes,20,rep,name=wsv,proto3" json:"wsv,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}              `json:"-"`
-	XXX_unrecognized     []byte                `json:"-"`
-	XXX_sizecache        int32                 `json:"-"`
+	Id  string                `protobuf:"bytes,10,opt,name=id" json:"id,omitempty"`
+	Wsv []*WorkflowStateValue `protobuf:"bytes,20,rep,name=wsv" json:"wsv,omitempty"`
 }
 
-func (m *WorkflowStateChangedMsg) Reset()         { *m = WorkflowStateChangedMsg{} }
-func (m *WorkflowStateChangedMsg) String() string { return proto.CompactTextString(m) }
-func (*WorkflowStateChangedMsg) ProtoMessage()    {}
-func (*WorkflowStateChangedMsg) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{19}
-}
-
-func (m *WorkflowStateChangedMsg) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_WorkflowStateChangedMsg.Unmarshal(m, b)
-}
-func (m *WorkflowStateChangedMsg) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_WorkflowStateChangedMsg.Marshal(b, m, deterministic)
-}
-func (m *WorkflowStateChangedMsg) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_WorkflowStateChangedMsg.Merge(m, src)
-}
-func (m *WorkflowStateChangedMsg) XXX_Size() int {
-	return xxx_messageInfo_WorkflowStateChangedMsg.Size(m)
-}
-func (m *WorkflowStateChangedMsg) XXX_DiscardUnknown() {
-	xxx_messageInfo_WorkflowStateChangedMsg.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_WorkflowStateChangedMsg proto.InternalMessageInfo
+func (m *WorkflowStateChangedMsg) Reset()                    { *m = WorkflowStateChangedMsg{} }
+func (m *WorkflowStateChangedMsg) String() string            { return proto.CompactTextString(m) }
+func (*WorkflowStateChangedMsg) ProtoMessage()               {}
+func (*WorkflowStateChangedMsg) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{19} }
 
 func (m *WorkflowStateChangedMsg) GetId() string {
 	if m != nil {
@@ -1532,7 +1167,10 @@ type WorkflowPodStateValue struct {
 	Message   string                 `protobuf:"bytes,70,opt,name=message" json:"message,omitempty"`
 }
 
-var xxx_messageInfo_WorkflowPodStateValue proto.InternalMessageInfo
+func (m *WorkflowPodStateValue) Reset()                    { *m = WorkflowPodStateValue{} }
+func (m *WorkflowPodStateValue) String() string            { return proto.CompactTextString(m) }
+func (*WorkflowPodStateValue) ProtoMessage()               {}
+func (*WorkflowPodStateValue) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{20} }
 
 func (m *WorkflowPodStateValue) GetName() string {
 	if m != nil {
@@ -1584,39 +1222,16 @@ func (m *WorkflowPodStateValue) GetMessage() string {
 }
 
 type StagePodStateValue struct {
-	StagesName           string                 `protobuf:"bytes,10,opt,name=stagesName,proto3" json:"stagesName,omitempty"`
-	State                workflow.WorkflowState `protobuf:"varint,20,opt,name=state,proto3,enum=workflow.WorkflowState" json:"state,omitempty"`
-	Name                 string                 `protobuf:"bytes,30,opt,name=name,proto3" json:"name,omitempty"`
-	Log                  string                 `protobuf:"bytes,40,opt,name=log,proto3" json:"log,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}               `json:"-"`
-	XXX_unrecognized     []byte                 `json:"-"`
-	XXX_sizecache        int32                  `json:"-"`
+	StagesName string                 `protobuf:"bytes,10,opt,name=stagesName" json:"stagesName,omitempty"`
+	State      workflow.WorkflowState `protobuf:"varint,20,opt,name=state,enum=workflow.WorkflowState" json:"state,omitempty"`
+	Name       string                 `protobuf:"bytes,30,opt,name=name" json:"name,omitempty"`
+	Log        string                 `protobuf:"bytes,40,opt,name=log" json:"log,omitempty"`
 }
 
-func (m *StagePodStateValue) Reset()         { *m = StagePodStateValue{} }
-func (m *StagePodStateValue) String() string { return proto.CompactTextString(m) }
-func (*StagePodStateValue) ProtoMessage()    {}
-func (*StagePodStateValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{21}
-}
-
-func (m *StagePodStateValue) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_StagePodStateValue.Unmarshal(m, b)
-}
-func (m *StagePodStateValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_StagePodStateValue.Marshal(b, m, deterministic)
-}
-func (m *StagePodStateValue) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_StagePodStateValue.Merge(m, src)
-}
-func (m *StagePodStateValue) XXX_Size() int {
-	return xxx_messageInfo_StagePodStateValue.Size(m)
-}
-func (m *StagePodStateValue) XXX_DiscardUnknown() {
-	xxx_messageInfo_StagePodStateValue.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_StagePodStateValue proto.InternalMessageInfo
+func (m *StagePodStateValue) Reset()                    { *m = StagePodStateValue{} }
+func (m *StagePodStateValue) String() string            { return proto.CompactTextString(m) }
+func (*StagePodStateValue) ProtoMessage()               {}
+func (*StagePodStateValue) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{21} }
 
 func (m *StagePodStateValue) GetStagesName() string {
 	if m != nil {
@@ -1652,30 +1267,10 @@ type WorkflowStageStateChangedMsg struct {
 	Wpsvs []*WorkflowPodStateValue `protobuf:"bytes,30,rep,name=wpsvs" json:"wpsvs,omitempty"`
 }
 
-func (m *WorkflowStageStateChangedMsg) Reset()         { *m = WorkflowStageStateChangedMsg{} }
-func (m *WorkflowStageStateChangedMsg) String() string { return proto.CompactTextString(m) }
-func (*WorkflowStageStateChangedMsg) ProtoMessage()    {}
-func (*WorkflowStageStateChangedMsg) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e07c6d6f5d02b81b, []int{22}
-}
-
-func (m *WorkflowStageStateChangedMsg) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_WorkflowStageStateChangedMsg.Unmarshal(m, b)
-}
-func (m *WorkflowStageStateChangedMsg) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_WorkflowStageStateChangedMsg.Marshal(b, m, deterministic)
-}
-func (m *WorkflowStageStateChangedMsg) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_WorkflowStageStateChangedMsg.Merge(m, src)
-}
-func (m *WorkflowStageStateChangedMsg) XXX_Size() int {
-	return xxx_messageInfo_WorkflowStageStateChangedMsg.Size(m)
-}
-func (m *WorkflowStageStateChangedMsg) XXX_DiscardUnknown() {
-	xxx_messageInfo_WorkflowStageStateChangedMsg.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_WorkflowStageStateChangedMsg proto.InternalMessageInfo
+func (m *WorkflowStageStateChangedMsg) Reset()                    { *m = WorkflowStageStateChangedMsg{} }
+func (m *WorkflowStageStateChangedMsg) String() string            { return proto.CompactTextString(m) }
+func (*WorkflowStageStateChangedMsg) ProtoMessage()               {}
+func (*WorkflowStageStateChangedMsg) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{22} }
 
 func (m *WorkflowStageStateChangedMsg) GetId() string {
 	if m != nil {
@@ -1715,9 +1310,6 @@ func (m *BaasTestMsg) GetMessage() string {
 }
 
 func init() {
-	proto.RegisterEnum("eventti.EventType", EventType_name, EventType_value)
-	proto.RegisterEnum("eventti.NotificationChannelType", NotificationChannelType_name, NotificationChannelType_value)
-	proto.RegisterEnum("eventti.EmailProtocol", EmailProtocol_name, EmailProtocol_value)
 	proto.RegisterType((*From)(nil), "eventti.From")
 	proto.RegisterType((*DeviceConfigUpdatedMsg)(nil), "eventti.DeviceConfigUpdatedMsg")
 	proto.RegisterType((*Event)(nil), "eventti.Event")
