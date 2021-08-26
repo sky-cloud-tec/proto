@@ -26,8 +26,68 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type TimeType int32
+
+const (
+	TimeType_DAY    TimeType = 0
+	TimeType_HOUR   TimeType = 1
+	TimeType_MINUTE TimeType = 2
+	TimeType_SECOND TimeType = 3
+	TimeType_MONTH  TimeType = 4
+)
+
+var TimeType_name = map[int32]string{
+	0: "DAY",
+	1: "HOUR",
+	2: "MINUTE",
+	3: "SECOND",
+	4: "MONTH",
+}
+
+var TimeType_value = map[string]int32{
+	"DAY":    0,
+	"HOUR":   1,
+	"MINUTE": 2,
+	"SECOND": 3,
+	"MONTH":  4,
+}
+
+func (x TimeType) String() string {
+	return proto.EnumName(TimeType_name, int32(x))
+}
+
+func (TimeType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_2c3cd0e8040154f4, []int{0}
+}
+
+type CleanResult int32
+
+const (
+	CleanResult_SUCCEED CleanResult = 0
+	CleanResult_FAILED  CleanResult = 1
+)
+
+var CleanResult_name = map[int32]string{
+	0: "SUCCEED",
+	1: "FAILED",
+}
+
+var CleanResult_value = map[string]int32{
+	"SUCCEED": 0,
+	"FAILED":  1,
+}
+
+func (x CleanResult) String() string {
+	return proto.EnumName(CleanResult_name, int32(x))
+}
+
+func (CleanResult) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_2c3cd0e8040154f4, []int{1}
+}
+
 type ByIdRequest struct {
 	Id                   string   `protobuf:"bytes,10,opt,name=id,proto3" json:"id,omitempty"`
+	ContextId            string   `protobuf:"bytes,20,opt,name=contextId,proto3" json:"contextId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -65,10 +125,18 @@ func (m *ByIdRequest) GetId() string {
 	return ""
 }
 
+func (m *ByIdRequest) GetContextId() string {
+	if m != nil {
+		return m.ContextId
+	}
+	return ""
+}
+
 type ByDeviceAndTaskRequest struct {
 	DeviceId             string   `protobuf:"bytes,10,opt,name=deviceId,proto3" json:"deviceId,omitempty"`
 	TaskId               string   `protobuf:"bytes,20,opt,name=taskId,proto3" json:"taskId,omitempty"`
 	DeviceType           string   `protobuf:"bytes,30,opt,name=deviceType,proto3" json:"deviceType,omitempty"`
+	ContextId            string   `protobuf:"bytes,40,opt,name=contextId,proto3" json:"contextId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -116,6 +184,13 @@ func (m *ByDeviceAndTaskRequest) GetTaskId() string {
 func (m *ByDeviceAndTaskRequest) GetDeviceType() string {
 	if m != nil {
 		return m.DeviceType
+	}
+	return ""
+}
+
+func (m *ByDeviceAndTaskRequest) GetContextId() string {
+	if m != nil {
+		return m.ContextId
 	}
 	return ""
 }
@@ -264,6 +339,7 @@ func (m *WithRawConfigRequest) GetCfg() *nap.RawConfig {
 type WithAddressAndDeviceRequest struct {
 	Address              *nap.Address `protobuf:"bytes,10,opt,name=address,proto3" json:"address,omitempty"`
 	Device               string       `protobuf:"bytes,20,opt,name=device,proto3" json:"device,omitempty"`
+	ContextId            string       `protobuf:"bytes,30,opt,name=contextId,proto3" json:"contextId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
 	XXX_unrecognized     []byte       `json:"-"`
 	XXX_sizecache        int32        `json:"-"`
@@ -308,9 +384,72 @@ func (m *WithAddressAndDeviceRequest) GetDevice() string {
 	return ""
 }
 
+func (m *WithAddressAndDeviceRequest) GetContextId() string {
+	if m != nil {
+		return m.ContextId
+	}
+	return ""
+}
+
+type WithHitCountAndDeviceRequest struct {
+	Hitcount             *nap.HitCounts `protobuf:"bytes,10,opt,name=hitcount,proto3" json:"hitcount,omitempty"`
+	Device               string         `protobuf:"bytes,20,opt,name=device,proto3" json:"device,omitempty"`
+	ContextId            string         `protobuf:"bytes,30,opt,name=contextId,proto3" json:"contextId,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
+	XXX_unrecognized     []byte         `json:"-"`
+	XXX_sizecache        int32          `json:"-"`
+}
+
+func (m *WithHitCountAndDeviceRequest) Reset()         { *m = WithHitCountAndDeviceRequest{} }
+func (m *WithHitCountAndDeviceRequest) String() string { return proto.CompactTextString(m) }
+func (*WithHitCountAndDeviceRequest) ProtoMessage()    {}
+func (*WithHitCountAndDeviceRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2c3cd0e8040154f4, []int{6}
+}
+
+func (m *WithHitCountAndDeviceRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_WithHitCountAndDeviceRequest.Unmarshal(m, b)
+}
+func (m *WithHitCountAndDeviceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_WithHitCountAndDeviceRequest.Marshal(b, m, deterministic)
+}
+func (m *WithHitCountAndDeviceRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_WithHitCountAndDeviceRequest.Merge(m, src)
+}
+func (m *WithHitCountAndDeviceRequest) XXX_Size() int {
+	return xxx_messageInfo_WithHitCountAndDeviceRequest.Size(m)
+}
+func (m *WithHitCountAndDeviceRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_WithHitCountAndDeviceRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_WithHitCountAndDeviceRequest proto.InternalMessageInfo
+
+func (m *WithHitCountAndDeviceRequest) GetHitcount() *nap.HitCounts {
+	if m != nil {
+		return m.Hitcount
+	}
+	return nil
+}
+
+func (m *WithHitCountAndDeviceRequest) GetDevice() string {
+	if m != nil {
+		return m.Device
+	}
+	return ""
+}
+
+func (m *WithHitCountAndDeviceRequest) GetContextId() string {
+	if m != nil {
+		return m.ContextId
+	}
+	return ""
+}
+
 type WithInterfacesAndDeviceRequest struct {
 	Interfaces           *nap.Interfaces `protobuf:"bytes,10,opt,name=Interfaces,proto3" json:"Interfaces,omitempty"`
 	Device               string          `protobuf:"bytes,20,opt,name=device,proto3" json:"device,omitempty"`
+	ContextId            string          `protobuf:"bytes,30,opt,name=contextId,proto3" json:"contextId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
 	XXX_unrecognized     []byte          `json:"-"`
 	XXX_sizecache        int32           `json:"-"`
@@ -320,7 +459,7 @@ func (m *WithInterfacesAndDeviceRequest) Reset()         { *m = WithInterfacesAn
 func (m *WithInterfacesAndDeviceRequest) String() string { return proto.CompactTextString(m) }
 func (*WithInterfacesAndDeviceRequest) ProtoMessage()    {}
 func (*WithInterfacesAndDeviceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{6}
+	return fileDescriptor_2c3cd0e8040154f4, []int{7}
 }
 
 func (m *WithInterfacesAndDeviceRequest) XXX_Unmarshal(b []byte) error {
@@ -355,9 +494,17 @@ func (m *WithInterfacesAndDeviceRequest) GetDevice() string {
 	return ""
 }
 
+func (m *WithInterfacesAndDeviceRequest) GetContextId() string {
+	if m != nil {
+		return m.ContextId
+	}
+	return ""
+}
+
 type WithZonesAndDeviceRequest struct {
 	Zones                *nap.Zones `protobuf:"bytes,10,opt,name=zones,proto3" json:"zones,omitempty"`
 	Device               string     `protobuf:"bytes,20,opt,name=device,proto3" json:"device,omitempty"`
+	ContextId            string     `protobuf:"bytes,30,opt,name=contextId,proto3" json:"contextId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
 	XXX_unrecognized     []byte     `json:"-"`
 	XXX_sizecache        int32      `json:"-"`
@@ -367,7 +514,7 @@ func (m *WithZonesAndDeviceRequest) Reset()         { *m = WithZonesAndDeviceReq
 func (m *WithZonesAndDeviceRequest) String() string { return proto.CompactTextString(m) }
 func (*WithZonesAndDeviceRequest) ProtoMessage()    {}
 func (*WithZonesAndDeviceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{7}
+	return fileDescriptor_2c3cd0e8040154f4, []int{8}
 }
 
 func (m *WithZonesAndDeviceRequest) XXX_Unmarshal(b []byte) error {
@@ -402,9 +549,17 @@ func (m *WithZonesAndDeviceRequest) GetDevice() string {
 	return ""
 }
 
+func (m *WithZonesAndDeviceRequest) GetContextId() string {
+	if m != nil {
+		return m.ContextId
+	}
+	return ""
+}
+
 type WithSchedulesAndDeviceRequest struct {
 	Schedules            *nap.Schedules `protobuf:"bytes,10,opt,name=schedules,proto3" json:"schedules,omitempty"`
 	Device               string         `protobuf:"bytes,20,opt,name=device,proto3" json:"device,omitempty"`
+	ContextId            string         `protobuf:"bytes,30,opt,name=contextId,proto3" json:"contextId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}       `json:"-"`
 	XXX_unrecognized     []byte         `json:"-"`
 	XXX_sizecache        int32          `json:"-"`
@@ -414,7 +569,7 @@ func (m *WithSchedulesAndDeviceRequest) Reset()         { *m = WithSchedulesAndD
 func (m *WithSchedulesAndDeviceRequest) String() string { return proto.CompactTextString(m) }
 func (*WithSchedulesAndDeviceRequest) ProtoMessage()    {}
 func (*WithSchedulesAndDeviceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{8}
+	return fileDescriptor_2c3cd0e8040154f4, []int{9}
 }
 
 func (m *WithSchedulesAndDeviceRequest) XXX_Unmarshal(b []byte) error {
@@ -449,9 +604,17 @@ func (m *WithSchedulesAndDeviceRequest) GetDevice() string {
 	return ""
 }
 
+func (m *WithSchedulesAndDeviceRequest) GetContextId() string {
+	if m != nil {
+		return m.ContextId
+	}
+	return ""
+}
+
 type WithServicesAndDeviceRequest struct {
 	Services             *nap.Services `protobuf:"bytes,10,opt,name=services,proto3" json:"services,omitempty"`
 	Device               string        `protobuf:"bytes,20,opt,name=device,proto3" json:"device,omitempty"`
+	ContextId            string        `protobuf:"bytes,30,opt,name=contextId,proto3" json:"contextId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
 	XXX_unrecognized     []byte        `json:"-"`
 	XXX_sizecache        int32         `json:"-"`
@@ -461,7 +624,7 @@ func (m *WithServicesAndDeviceRequest) Reset()         { *m = WithServicesAndDev
 func (m *WithServicesAndDeviceRequest) String() string { return proto.CompactTextString(m) }
 func (*WithServicesAndDeviceRequest) ProtoMessage()    {}
 func (*WithServicesAndDeviceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{9}
+	return fileDescriptor_2c3cd0e8040154f4, []int{10}
 }
 
 func (m *WithServicesAndDeviceRequest) XXX_Unmarshal(b []byte) error {
@@ -496,9 +659,17 @@ func (m *WithServicesAndDeviceRequest) GetDevice() string {
 	return ""
 }
 
+func (m *WithServicesAndDeviceRequest) GetContextId() string {
+	if m != nil {
+		return m.ContextId
+	}
+	return ""
+}
+
 type WithRoutesAndDeviceRequest struct {
 	Routes               *nap.Routes `protobuf:"bytes,10,opt,name=routes,proto3" json:"routes,omitempty"`
 	Device               string      `protobuf:"bytes,20,opt,name=device,proto3" json:"device,omitempty"`
+	ContextId            string      `protobuf:"bytes,30,opt,name=contextId,proto3" json:"contextId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
 	XXX_unrecognized     []byte      `json:"-"`
 	XXX_sizecache        int32       `json:"-"`
@@ -508,7 +679,7 @@ func (m *WithRoutesAndDeviceRequest) Reset()         { *m = WithRoutesAndDeviceR
 func (m *WithRoutesAndDeviceRequest) String() string { return proto.CompactTextString(m) }
 func (*WithRoutesAndDeviceRequest) ProtoMessage()    {}
 func (*WithRoutesAndDeviceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{10}
+	return fileDescriptor_2c3cd0e8040154f4, []int{11}
 }
 
 func (m *WithRoutesAndDeviceRequest) XXX_Unmarshal(b []byte) error {
@@ -543,9 +714,17 @@ func (m *WithRoutesAndDeviceRequest) GetDevice() string {
 	return ""
 }
 
+func (m *WithRoutesAndDeviceRequest) GetContextId() string {
+	if m != nil {
+		return m.ContextId
+	}
+	return ""
+}
+
 type WithPoliciesAndDeviceRequest struct {
 	Policies             *nap.Policies `protobuf:"bytes,10,opt,name=policies,proto3" json:"policies,omitempty"`
 	Device               string        `protobuf:"bytes,20,opt,name=device,proto3" json:"device,omitempty"`
+	ContextId            string        `protobuf:"bytes,30,opt,name=contextId,proto3" json:"contextId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
 	XXX_unrecognized     []byte        `json:"-"`
 	XXX_sizecache        int32         `json:"-"`
@@ -555,7 +734,7 @@ func (m *WithPoliciesAndDeviceRequest) Reset()         { *m = WithPoliciesAndDev
 func (m *WithPoliciesAndDeviceRequest) String() string { return proto.CompactTextString(m) }
 func (*WithPoliciesAndDeviceRequest) ProtoMessage()    {}
 func (*WithPoliciesAndDeviceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{11}
+	return fileDescriptor_2c3cd0e8040154f4, []int{12}
 }
 
 func (m *WithPoliciesAndDeviceRequest) XXX_Unmarshal(b []byte) error {
@@ -590,10 +769,18 @@ func (m *WithPoliciesAndDeviceRequest) GetDevice() string {
 	return ""
 }
 
+func (m *WithPoliciesAndDeviceRequest) GetContextId() string {
+	if m != nil {
+		return m.ContextId
+	}
+	return ""
+}
+
 type WithApplicationsAndDeviceRequest struct {
 	Applications         *nap.Applications `protobuf:"bytes,10,opt,name=applications,proto3" json:"applications,omitempty"`
 	Device               string            `protobuf:"bytes,20,opt,name=device,proto3" json:"device,omitempty"`
 	AppDirectoryId       string            `protobuf:"bytes,30,opt,name=appDirectoryId,proto3" json:"appDirectoryId,omitempty"`
+	ContextId            string            `protobuf:"bytes,40,opt,name=contextId,proto3" json:"contextId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
 	XXX_unrecognized     []byte            `json:"-"`
 	XXX_sizecache        int32             `json:"-"`
@@ -603,7 +790,7 @@ func (m *WithApplicationsAndDeviceRequest) Reset()         { *m = WithApplicatio
 func (m *WithApplicationsAndDeviceRequest) String() string { return proto.CompactTextString(m) }
 func (*WithApplicationsAndDeviceRequest) ProtoMessage()    {}
 func (*WithApplicationsAndDeviceRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{12}
+	return fileDescriptor_2c3cd0e8040154f4, []int{13}
 }
 
 func (m *WithApplicationsAndDeviceRequest) XXX_Unmarshal(b []byte) error {
@@ -645,6 +832,68 @@ func (m *WithApplicationsAndDeviceRequest) GetAppDirectoryId() string {
 	return ""
 }
 
+func (m *WithApplicationsAndDeviceRequest) GetContextId() string {
+	if m != nil {
+		return m.ContextId
+	}
+	return ""
+}
+
+type WithUserIDsAndDeviceRequest struct {
+	UserIDs              *nap.UserIDs `protobuf:"bytes,10,opt,name=userIDs,proto3" json:"userIDs,omitempty"`
+	Device               string       `protobuf:"bytes,20,opt,name=device,proto3" json:"device,omitempty"`
+	ContextId            string       `protobuf:"bytes,30,opt,name=contextId,proto3" json:"contextId,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
+	XXX_unrecognized     []byte       `json:"-"`
+	XXX_sizecache        int32        `json:"-"`
+}
+
+func (m *WithUserIDsAndDeviceRequest) Reset()         { *m = WithUserIDsAndDeviceRequest{} }
+func (m *WithUserIDsAndDeviceRequest) String() string { return proto.CompactTextString(m) }
+func (*WithUserIDsAndDeviceRequest) ProtoMessage()    {}
+func (*WithUserIDsAndDeviceRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2c3cd0e8040154f4, []int{14}
+}
+
+func (m *WithUserIDsAndDeviceRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_WithUserIDsAndDeviceRequest.Unmarshal(m, b)
+}
+func (m *WithUserIDsAndDeviceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_WithUserIDsAndDeviceRequest.Marshal(b, m, deterministic)
+}
+func (m *WithUserIDsAndDeviceRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_WithUserIDsAndDeviceRequest.Merge(m, src)
+}
+func (m *WithUserIDsAndDeviceRequest) XXX_Size() int {
+	return xxx_messageInfo_WithUserIDsAndDeviceRequest.Size(m)
+}
+func (m *WithUserIDsAndDeviceRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_WithUserIDsAndDeviceRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_WithUserIDsAndDeviceRequest proto.InternalMessageInfo
+
+func (m *WithUserIDsAndDeviceRequest) GetUserIDs() *nap.UserIDs {
+	if m != nil {
+		return m.UserIDs
+	}
+	return nil
+}
+
+func (m *WithUserIDsAndDeviceRequest) GetDevice() string {
+	if m != nil {
+		return m.Device
+	}
+	return ""
+}
+
+func (m *WithUserIDsAndDeviceRequest) GetContextId() string {
+	if m != nil {
+		return m.ContextId
+	}
+	return ""
+}
+
 type ByDeviceAndPageRequest struct {
 	Device               string   `protobuf:"bytes,10,opt,name=device,proto3" json:"device,omitempty"`
 	Page                 int32    `protobuf:"varint,20,opt,name=page,proto3" json:"page,omitempty"`
@@ -658,7 +907,7 @@ func (m *ByDeviceAndPageRequest) Reset()         { *m = ByDeviceAndPageRequest{}
 func (m *ByDeviceAndPageRequest) String() string { return proto.CompactTextString(m) }
 func (*ByDeviceAndPageRequest) ProtoMessage()    {}
 func (*ByDeviceAndPageRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{13}
+	return fileDescriptor_2c3cd0e8040154f4, []int{15}
 }
 
 func (m *ByDeviceAndPageRequest) XXX_Unmarshal(b []byte) error {
@@ -711,7 +960,7 @@ func (m *PullDeviceConfigResponse) Reset()         { *m = PullDeviceConfigRespon
 func (m *PullDeviceConfigResponse) String() string { return proto.CompactTextString(m) }
 func (*PullDeviceConfigResponse) ProtoMessage()    {}
 func (*PullDeviceConfigResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{14}
+	return fileDescriptor_2c3cd0e8040154f4, []int{16}
 }
 
 func (m *PullDeviceConfigResponse) XXX_Unmarshal(b []byte) error {
@@ -751,7 +1000,7 @@ func (m *ListRawConfigResponse) Reset()         { *m = ListRawConfigResponse{} }
 func (m *ListRawConfigResponse) String() string { return proto.CompactTextString(m) }
 func (*ListRawConfigResponse) ProtoMessage()    {}
 func (*ListRawConfigResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{15}
+	return fileDescriptor_2c3cd0e8040154f4, []int{17}
 }
 
 func (m *ListRawConfigResponse) XXX_Unmarshal(b []byte) error {
@@ -797,7 +1046,7 @@ func (m *GetRawConfigResponse) Reset()         { *m = GetRawConfigResponse{} }
 func (m *GetRawConfigResponse) String() string { return proto.CompactTextString(m) }
 func (*GetRawConfigResponse) ProtoMessage()    {}
 func (*GetRawConfigResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{16}
+	return fileDescriptor_2c3cd0e8040154f4, []int{18}
 }
 
 func (m *GetRawConfigResponse) XXX_Unmarshal(b []byte) error {
@@ -825,6 +1074,195 @@ func (m *GetRawConfigResponse) GetCfg() *nap.RawConfig {
 	return nil
 }
 
+type SendDeviceStateRequest struct {
+	DeviceId             string   `protobuf:"bytes,10,opt,name=deviceId,proto3" json:"deviceId,omitempty"`
+	TaskType             string   `protobuf:"bytes,20,opt,name=taskType,proto3" json:"taskType,omitempty"`
+	DeviceState          string   `protobuf:"bytes,30,opt,name=deviceState,proto3" json:"deviceState,omitempty"`
+	ContextId            string   `protobuf:"bytes,40,opt,name=contextId,proto3" json:"contextId,omitempty"`
+	Message              string   `protobuf:"bytes,50,opt,name=message,proto3" json:"message,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *SendDeviceStateRequest) Reset()         { *m = SendDeviceStateRequest{} }
+func (m *SendDeviceStateRequest) String() string { return proto.CompactTextString(m) }
+func (*SendDeviceStateRequest) ProtoMessage()    {}
+func (*SendDeviceStateRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2c3cd0e8040154f4, []int{19}
+}
+
+func (m *SendDeviceStateRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SendDeviceStateRequest.Unmarshal(m, b)
+}
+func (m *SendDeviceStateRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SendDeviceStateRequest.Marshal(b, m, deterministic)
+}
+func (m *SendDeviceStateRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SendDeviceStateRequest.Merge(m, src)
+}
+func (m *SendDeviceStateRequest) XXX_Size() int {
+	return xxx_messageInfo_SendDeviceStateRequest.Size(m)
+}
+func (m *SendDeviceStateRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SendDeviceStateRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SendDeviceStateRequest proto.InternalMessageInfo
+
+func (m *SendDeviceStateRequest) GetDeviceId() string {
+	if m != nil {
+		return m.DeviceId
+	}
+	return ""
+}
+
+func (m *SendDeviceStateRequest) GetTaskType() string {
+	if m != nil {
+		return m.TaskType
+	}
+	return ""
+}
+
+func (m *SendDeviceStateRequest) GetDeviceState() string {
+	if m != nil {
+		return m.DeviceState
+	}
+	return ""
+}
+
+func (m *SendDeviceStateRequest) GetContextId() string {
+	if m != nil {
+		return m.ContextId
+	}
+	return ""
+}
+
+func (m *SendDeviceStateRequest) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+type CleanRawConfigRequest struct {
+	DeviceId             string   `protobuf:"bytes,10,opt,name=deviceId,proto3" json:"deviceId,omitempty"`
+	MaxSize              int32    `protobuf:"varint,20,opt,name=maxSize,proto3" json:"maxSize,omitempty"`
+	SizeEnable           bool     `protobuf:"varint,30,opt,name=sizeEnable,proto3" json:"sizeEnable,omitempty"`
+	MaxDay               int32    `protobuf:"varint,40,opt,name=maxDay,proto3" json:"maxDay,omitempty"`
+	DayEnable            bool     `protobuf:"varint,50,opt,name=dayEnable,proto3" json:"dayEnable,omitempty"`
+	TimeType             TimeType `protobuf:"varint,60,opt,name=timeType,proto3,enum=rpc.TimeType" json:"timeType,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CleanRawConfigRequest) Reset()         { *m = CleanRawConfigRequest{} }
+func (m *CleanRawConfigRequest) String() string { return proto.CompactTextString(m) }
+func (*CleanRawConfigRequest) ProtoMessage()    {}
+func (*CleanRawConfigRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2c3cd0e8040154f4, []int{20}
+}
+
+func (m *CleanRawConfigRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CleanRawConfigRequest.Unmarshal(m, b)
+}
+func (m *CleanRawConfigRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CleanRawConfigRequest.Marshal(b, m, deterministic)
+}
+func (m *CleanRawConfigRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CleanRawConfigRequest.Merge(m, src)
+}
+func (m *CleanRawConfigRequest) XXX_Size() int {
+	return xxx_messageInfo_CleanRawConfigRequest.Size(m)
+}
+func (m *CleanRawConfigRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CleanRawConfigRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CleanRawConfigRequest proto.InternalMessageInfo
+
+func (m *CleanRawConfigRequest) GetDeviceId() string {
+	if m != nil {
+		return m.DeviceId
+	}
+	return ""
+}
+
+func (m *CleanRawConfigRequest) GetMaxSize() int32 {
+	if m != nil {
+		return m.MaxSize
+	}
+	return 0
+}
+
+func (m *CleanRawConfigRequest) GetSizeEnable() bool {
+	if m != nil {
+		return m.SizeEnable
+	}
+	return false
+}
+
+func (m *CleanRawConfigRequest) GetMaxDay() int32 {
+	if m != nil {
+		return m.MaxDay
+	}
+	return 0
+}
+
+func (m *CleanRawConfigRequest) GetDayEnable() bool {
+	if m != nil {
+		return m.DayEnable
+	}
+	return false
+}
+
+func (m *CleanRawConfigRequest) GetTimeType() TimeType {
+	if m != nil {
+		return m.TimeType
+	}
+	return TimeType_DAY
+}
+
+type CleanRawConfigResponse struct {
+	Result               CleanResult `protobuf:"varint,10,opt,name=result,proto3,enum=rpc.CleanResult" json:"result,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
+}
+
+func (m *CleanRawConfigResponse) Reset()         { *m = CleanRawConfigResponse{} }
+func (m *CleanRawConfigResponse) String() string { return proto.CompactTextString(m) }
+func (*CleanRawConfigResponse) ProtoMessage()    {}
+func (*CleanRawConfigResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2c3cd0e8040154f4, []int{21}
+}
+
+func (m *CleanRawConfigResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CleanRawConfigResponse.Unmarshal(m, b)
+}
+func (m *CleanRawConfigResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CleanRawConfigResponse.Marshal(b, m, deterministic)
+}
+func (m *CleanRawConfigResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CleanRawConfigResponse.Merge(m, src)
+}
+func (m *CleanRawConfigResponse) XXX_Size() int {
+	return xxx_messageInfo_CleanRawConfigResponse.Size(m)
+}
+func (m *CleanRawConfigResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CleanRawConfigResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CleanRawConfigResponse proto.InternalMessageInfo
+
+func (m *CleanRawConfigResponse) GetResult() CleanResult {
+	if m != nil {
+		return m.Result
+	}
+	return CleanResult_SUCCEED
+}
+
 type ImportAddressesResponse struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
@@ -835,7 +1273,7 @@ func (m *ImportAddressesResponse) Reset()         { *m = ImportAddressesResponse
 func (m *ImportAddressesResponse) String() string { return proto.CompactTextString(m) }
 func (*ImportAddressesResponse) ProtoMessage()    {}
 func (*ImportAddressesResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{17}
+	return fileDescriptor_2c3cd0e8040154f4, []int{22}
 }
 
 func (m *ImportAddressesResponse) XXX_Unmarshal(b []byte) error {
@@ -866,7 +1304,7 @@ func (m *ImportInterfacesResponse) Reset()         { *m = ImportInterfacesRespon
 func (m *ImportInterfacesResponse) String() string { return proto.CompactTextString(m) }
 func (*ImportInterfacesResponse) ProtoMessage()    {}
 func (*ImportInterfacesResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{18}
+	return fileDescriptor_2c3cd0e8040154f4, []int{23}
 }
 
 func (m *ImportInterfacesResponse) XXX_Unmarshal(b []byte) error {
@@ -897,7 +1335,7 @@ func (m *ImportZonesResponse) Reset()         { *m = ImportZonesResponse{} }
 func (m *ImportZonesResponse) String() string { return proto.CompactTextString(m) }
 func (*ImportZonesResponse) ProtoMessage()    {}
 func (*ImportZonesResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{19}
+	return fileDescriptor_2c3cd0e8040154f4, []int{24}
 }
 
 func (m *ImportZonesResponse) XXX_Unmarshal(b []byte) error {
@@ -928,7 +1366,7 @@ func (m *ImportSchedulesResponse) Reset()         { *m = ImportSchedulesResponse
 func (m *ImportSchedulesResponse) String() string { return proto.CompactTextString(m) }
 func (*ImportSchedulesResponse) ProtoMessage()    {}
 func (*ImportSchedulesResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{20}
+	return fileDescriptor_2c3cd0e8040154f4, []int{25}
 }
 
 func (m *ImportSchedulesResponse) XXX_Unmarshal(b []byte) error {
@@ -959,7 +1397,7 @@ func (m *ImportServicesResponse) Reset()         { *m = ImportServicesResponse{}
 func (m *ImportServicesResponse) String() string { return proto.CompactTextString(m) }
 func (*ImportServicesResponse) ProtoMessage()    {}
 func (*ImportServicesResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{21}
+	return fileDescriptor_2c3cd0e8040154f4, []int{26}
 }
 
 func (m *ImportServicesResponse) XXX_Unmarshal(b []byte) error {
@@ -990,7 +1428,7 @@ func (m *ImportRoutesResponse) Reset()         { *m = ImportRoutesResponse{} }
 func (m *ImportRoutesResponse) String() string { return proto.CompactTextString(m) }
 func (*ImportRoutesResponse) ProtoMessage()    {}
 func (*ImportRoutesResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{22}
+	return fileDescriptor_2c3cd0e8040154f4, []int{27}
 }
 
 func (m *ImportRoutesResponse) XXX_Unmarshal(b []byte) error {
@@ -1021,7 +1459,7 @@ func (m *ImportPoliciesResponse) Reset()         { *m = ImportPoliciesResponse{}
 func (m *ImportPoliciesResponse) String() string { return proto.CompactTextString(m) }
 func (*ImportPoliciesResponse) ProtoMessage()    {}
 func (*ImportPoliciesResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{23}
+	return fileDescriptor_2c3cd0e8040154f4, []int{28}
 }
 
 func (m *ImportPoliciesResponse) XXX_Unmarshal(b []byte) error {
@@ -1052,7 +1490,7 @@ func (m *ImportApplicationsResponse) Reset()         { *m = ImportApplicationsRe
 func (m *ImportApplicationsResponse) String() string { return proto.CompactTextString(m) }
 func (*ImportApplicationsResponse) ProtoMessage()    {}
 func (*ImportApplicationsResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2c3cd0e8040154f4, []int{24}
+	return fileDescriptor_2c3cd0e8040154f4, []int{29}
 }
 
 func (m *ImportApplicationsResponse) XXX_Unmarshal(b []byte) error {
@@ -1073,13 +1511,109 @@ func (m *ImportApplicationsResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ImportApplicationsResponse proto.InternalMessageInfo
 
+type ImportHitCountsResponse struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ImportHitCountsResponse) Reset()         { *m = ImportHitCountsResponse{} }
+func (m *ImportHitCountsResponse) String() string { return proto.CompactTextString(m) }
+func (*ImportHitCountsResponse) ProtoMessage()    {}
+func (*ImportHitCountsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2c3cd0e8040154f4, []int{30}
+}
+
+func (m *ImportHitCountsResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ImportHitCountsResponse.Unmarshal(m, b)
+}
+func (m *ImportHitCountsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ImportHitCountsResponse.Marshal(b, m, deterministic)
+}
+func (m *ImportHitCountsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ImportHitCountsResponse.Merge(m, src)
+}
+func (m *ImportHitCountsResponse) XXX_Size() int {
+	return xxx_messageInfo_ImportHitCountsResponse.Size(m)
+}
+func (m *ImportHitCountsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ImportHitCountsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ImportHitCountsResponse proto.InternalMessageInfo
+
+type ImportUserIDsResponse struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ImportUserIDsResponse) Reset()         { *m = ImportUserIDsResponse{} }
+func (m *ImportUserIDsResponse) String() string { return proto.CompactTextString(m) }
+func (*ImportUserIDsResponse) ProtoMessage()    {}
+func (*ImportUserIDsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2c3cd0e8040154f4, []int{31}
+}
+
+func (m *ImportUserIDsResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ImportUserIDsResponse.Unmarshal(m, b)
+}
+func (m *ImportUserIDsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ImportUserIDsResponse.Marshal(b, m, deterministic)
+}
+func (m *ImportUserIDsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ImportUserIDsResponse.Merge(m, src)
+}
+func (m *ImportUserIDsResponse) XXX_Size() int {
+	return xxx_messageInfo_ImportUserIDsResponse.Size(m)
+}
+func (m *ImportUserIDsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ImportUserIDsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ImportUserIDsResponse proto.InternalMessageInfo
+
+type SendDeviceStateResponse struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *SendDeviceStateResponse) Reset()         { *m = SendDeviceStateResponse{} }
+func (m *SendDeviceStateResponse) String() string { return proto.CompactTextString(m) }
+func (*SendDeviceStateResponse) ProtoMessage()    {}
+func (*SendDeviceStateResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2c3cd0e8040154f4, []int{32}
+}
+
+func (m *SendDeviceStateResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SendDeviceStateResponse.Unmarshal(m, b)
+}
+func (m *SendDeviceStateResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SendDeviceStateResponse.Marshal(b, m, deterministic)
+}
+func (m *SendDeviceStateResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SendDeviceStateResponse.Merge(m, src)
+}
+func (m *SendDeviceStateResponse) XXX_Size() int {
+	return xxx_messageInfo_SendDeviceStateResponse.Size(m)
+}
+func (m *SendDeviceStateResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_SendDeviceStateResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SendDeviceStateResponse proto.InternalMessageInfo
+
 func init() {
+	proto.RegisterEnum("rpc.TimeType", TimeType_name, TimeType_value)
+	proto.RegisterEnum("rpc.CleanResult", CleanResult_name, CleanResult_value)
 	proto.RegisterType((*ByIdRequest)(nil), "rpc.ByIdRequest")
 	proto.RegisterType((*ByDeviceAndTaskRequest)(nil), "rpc.ByDeviceAndTaskRequest")
 	proto.RegisterType((*ByDeviceIdAndDeviceTypeAndKeyRequest)(nil), "rpc.ByDeviceIdAndDeviceTypeAndKeyRequest")
 	proto.RegisterType((*GetTemplateDeviceResponse)(nil), "rpc.GetTemplateDeviceResponse")
 	proto.RegisterType((*WithRawConfigRequest)(nil), "rpc.WithRawConfigRequest")
 	proto.RegisterType((*WithAddressAndDeviceRequest)(nil), "rpc.WithAddressAndDeviceRequest")
+	proto.RegisterType((*WithHitCountAndDeviceRequest)(nil), "rpc.WithHitCountAndDeviceRequest")
 	proto.RegisterType((*WithInterfacesAndDeviceRequest)(nil), "rpc.WithInterfacesAndDeviceRequest")
 	proto.RegisterType((*WithZonesAndDeviceRequest)(nil), "rpc.WithZonesAndDeviceRequest")
 	proto.RegisterType((*WithSchedulesAndDeviceRequest)(nil), "rpc.WithSchedulesAndDeviceRequest")
@@ -1087,10 +1621,14 @@ func init() {
 	proto.RegisterType((*WithRoutesAndDeviceRequest)(nil), "rpc.WithRoutesAndDeviceRequest")
 	proto.RegisterType((*WithPoliciesAndDeviceRequest)(nil), "rpc.WithPoliciesAndDeviceRequest")
 	proto.RegisterType((*WithApplicationsAndDeviceRequest)(nil), "rpc.WithApplicationsAndDeviceRequest")
+	proto.RegisterType((*WithUserIDsAndDeviceRequest)(nil), "rpc.WithUserIDsAndDeviceRequest")
 	proto.RegisterType((*ByDeviceAndPageRequest)(nil), "rpc.ByDeviceAndPageRequest")
 	proto.RegisterType((*PullDeviceConfigResponse)(nil), "rpc.PullDeviceConfigResponse")
 	proto.RegisterType((*ListRawConfigResponse)(nil), "rpc.ListRawConfigResponse")
 	proto.RegisterType((*GetRawConfigResponse)(nil), "rpc.GetRawConfigResponse")
+	proto.RegisterType((*SendDeviceStateRequest)(nil), "rpc.SendDeviceStateRequest")
+	proto.RegisterType((*CleanRawConfigRequest)(nil), "rpc.CleanRawConfigRequest")
+	proto.RegisterType((*CleanRawConfigResponse)(nil), "rpc.CleanRawConfigResponse")
 	proto.RegisterType((*ImportAddressesResponse)(nil), "rpc.ImportAddressesResponse")
 	proto.RegisterType((*ImportInterfacesResponse)(nil), "rpc.ImportInterfacesResponse")
 	proto.RegisterType((*ImportZonesResponse)(nil), "rpc.ImportZonesResponse")
@@ -1099,85 +1637,116 @@ func init() {
 	proto.RegisterType((*ImportRoutesResponse)(nil), "rpc.ImportRoutesResponse")
 	proto.RegisterType((*ImportPoliciesResponse)(nil), "rpc.ImportPoliciesResponse")
 	proto.RegisterType((*ImportApplicationsResponse)(nil), "rpc.ImportApplicationsResponse")
+	proto.RegisterType((*ImportHitCountsResponse)(nil), "rpc.ImportHitCountsResponse")
+	proto.RegisterType((*ImportUserIDsResponse)(nil), "rpc.ImportUserIDsResponse")
+	proto.RegisterType((*SendDeviceStateResponse)(nil), "rpc.SendDeviceStateResponse")
 }
 
 func init() { proto.RegisterFile("src/grpc/nap.proto", fileDescriptor_2c3cd0e8040154f4) }
 
 var fileDescriptor_2c3cd0e8040154f4 = []byte{
-	// 1153 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x57, 0xeb, 0x6e, 0xdc, 0x44,
-	0x14, 0x76, 0x93, 0x26, 0x34, 0x27, 0xc9, 0x66, 0x33, 0x4d, 0xc2, 0xc6, 0xb9, 0x2d, 0xee, 0x05,
-	0x2a, 0x91, 0x5d, 0x61, 0x84, 0xc4, 0x1f, 0x84, 0x72, 0x41, 0xd5, 0x86, 0x2a, 0x44, 0x4e, 0x2a,
-	0x4a, 0x11, 0x84, 0xa9, 0x3d, 0xbb, 0xb1, 0xd6, 0x6b, 0x0f, 0x9e, 0xd9, 0x54, 0xdb, 0x37, 0xe1,
-	0x29, 0x78, 0x20, 0x5e, 0x06, 0xcd, 0xcd, 0x97, 0xd8, 0x6e, 0x84, 0xc4, 0x3f, 0xcf, 0xf9, 0xce,
-	0x9c, 0x6f, 0xe6, 0xcc, 0x39, 0xdf, 0x8c, 0x01, 0xb1, 0xd4, 0xef, 0x8f, 0x52, 0xea, 0xf7, 0x63,
-	0x4c, 0x7b, 0x34, 0x4d, 0x78, 0x82, 0xe6, 0x53, 0xea, 0xdb, 0x9b, 0x02, 0xf0, 0x93, 0xc9, 0x24,
-	0x89, 0xfb, 0x13, 0x36, 0x62, 0x0a, 0x2b, 0x99, 0x29, 0x1e, 0x11, 0x6d, 0x5e, 0x17, 0xe6, 0x18,
-	0xd3, 0x3c, 0x8a, 0xb3, 0x07, 0xcb, 0xc7, 0xb3, 0x41, 0xe0, 0x91, 0x3f, 0xa7, 0x84, 0x71, 0xd4,
-	0x82, 0xb9, 0x30, 0xe8, 0x40, 0xf7, 0xc1, 0x17, 0x4b, 0xde, 0x5c, 0x18, 0x38, 0x11, 0x6c, 0x1d,
-	0xcf, 0x4e, 0xc9, 0x6d, 0xe8, 0x93, 0xa3, 0x38, 0xb8, 0xc2, 0x6c, 0x6c, 0x3c, 0x6d, 0x78, 0x14,
-	0x48, 0xfb, 0xc0, 0xf8, 0x67, 0x63, 0xb4, 0x05, 0x8b, 0x1c, 0xb3, 0xf1, 0x20, 0xe8, 0x6c, 0x48,
-	0x44, 0x8f, 0xd0, 0x3e, 0x80, 0xf2, 0xb9, 0x9a, 0x51, 0xd2, 0xd9, 0x97, 0x58, 0xc1, 0xe2, 0xdc,
-	0xc2, 0x53, 0xc3, 0x36, 0x08, 0x8e, 0xe2, 0xe0, 0x34, 0x83, 0x8e, 0xe2, 0xe0, 0x47, 0x32, 0x33,
-	0xdc, 0x3b, 0xb0, 0xa4, 0x66, 0x5d, 0x87, 0x55, 0xf2, 0x36, 0xcc, 0x8f, 0xc9, 0x4c, 0x33, 0x8b,
-	0x4f, 0x74, 0x00, 0xcb, 0xda, 0x9d, 0xd7, 0xf3, 0xfe, 0x00, 0xdb, 0x2f, 0x09, 0xbf, 0x22, 0x13,
-	0x1a, 0x61, 0x4e, 0x14, 0xab, 0x47, 0x18, 0x4d, 0x62, 0x46, 0x10, 0x82, 0x87, 0x31, 0x9e, 0x10,
-	0xcd, 0x23, 0xbf, 0xd1, 0x06, 0x2c, 0xdc, 0xe2, 0x68, 0x4a, 0x34, 0x8b, 0x1a, 0x38, 0xdf, 0xc2,
-	0xc6, 0xcf, 0x21, 0xbf, 0xf1, 0xf0, 0xfb, 0x93, 0x24, 0x1e, 0x86, 0x23, 0xb3, 0xdc, 0x2e, 0xcc,
-	0xfb, 0xc3, 0x91, 0x0c, 0xb0, 0xec, 0xb6, 0x7a, 0x22, 0xf9, 0xb9, 0x8f, 0x80, 0x9c, 0xdf, 0x60,
-	0x47, 0xcc, 0x3c, 0x0a, 0x82, 0x94, 0x30, 0x96, 0xed, 0xdc, 0x04, 0x78, 0x0e, 0x9f, 0x60, 0x05,
-	0xe9, 0x20, 0x2b, 0x32, 0x88, 0x76, 0xf7, 0x0c, 0x28, 0xf2, 0xae, 0x76, 0x65, 0xf2, 0xae, 0x46,
-	0x4e, 0x08, 0xfb, 0x22, 0xfc, 0x20, 0xe6, 0x24, 0x1d, 0x62, 0x9f, 0x54, 0x19, 0xfa, 0x00, 0x39,
-	0xaa, 0x49, 0xd6, 0x24, 0x49, 0x6e, 0xf6, 0x0a, 0x2e, 0x8d, 0x54, 0xaf, 0x61, 0x5b, 0x50, 0xbd,
-	0x4d, 0xe2, 0x1a, 0x96, 0x2e, 0x2c, 0x7c, 0x10, 0x80, 0x26, 0x00, 0x49, 0x20, 0x5d, 0x3d, 0x05,
-	0x34, 0x86, 0x25, 0xb0, 0x27, 0xc2, 0x5e, 0xfa, 0x37, 0x24, 0x98, 0x46, 0x35, 0xa1, 0xbf, 0x84,
-	0x25, 0x66, 0xc0, 0x52, 0xa6, 0xb3, 0x29, 0x5e, 0xee, 0xd0, 0x48, 0x83, 0x61, 0x57, 0xd2, 0x90,
-	0x54, 0x0c, 0xab, 0x2c, 0x2f, 0xe0, 0x11, 0xd3, 0x98, 0x26, 0x59, 0x55, 0x24, 0xda, 0xe8, 0x65,
-	0x70, 0x23, 0xc5, 0x2f, 0x60, 0xcb, 0x22, 0x49, 0xa6, 0xbc, 0x86, 0xe0, 0x09, 0x2c, 0xa6, 0x12,
-	0xd1, 0xe1, 0x97, 0x55, 0xb5, 0x48, 0x93, 0xa7, 0xa1, 0xfb, 0x56, 0x7f, 0x91, 0x44, 0xa1, 0x1f,
-	0xd6, 0xaf, 0x9e, 0x6a, 0xac, 0xb4, 0x7a, 0x33, 0xc1, 0xcb, 0xe0, 0x46, 0x8a, 0xbf, 0x1e, 0x40,
-	0x57, 0x56, 0x2a, 0xa5, 0x51, 0xe8, 0x63, 0x1e, 0x26, 0x71, 0x95, 0xe7, 0x1b, 0x58, 0xc1, 0x05,
-	0x5c, 0x73, 0xad, 0xab, 0x9a, 0x2d, 0x00, 0x5e, 0xc9, 0xad, 0x89, 0x13, 0x3d, 0x87, 0x16, 0xa6,
-	0xf4, 0x34, 0x4c, 0x89, 0xcf, 0x93, 0x74, 0x36, 0x08, 0x74, 0x07, 0xdf, 0xb1, 0x3a, 0x6f, 0x4a,
-	0x5a, 0x75, 0x81, 0x47, 0xd9, 0x82, 0xf2, 0xc8, 0x50, 0x8a, 0x8c, 0xe0, 0xa1, 0x50, 0x47, 0xc9,
-	0xb7, 0xe0, 0xc9, 0x6f, 0x61, 0x63, 0xe1, 0x07, 0xa5, 0x12, 0x0b, 0x9e, 0xfc, 0x76, 0x4e, 0xa0,
-	0x73, 0x31, 0x8d, 0x22, 0x15, 0xdb, 0xf4, 0xb6, 0x96, 0x87, 0xcf, 0x61, 0x31, 0x25, 0x6c, 0x1a,
-	0x71, 0x19, 0xbb, 0xa5, 0xbb, 0x46, 0xb8, 0x7b, 0xd2, 0xec, 0x69, 0xd8, 0x89, 0x60, 0xf3, 0x55,
-	0xc8, 0x78, 0x41, 0x1d, 0x74, 0x84, 0x43, 0x58, 0x12, 0xcc, 0xd7, 0x61, 0x3c, 0x4c, 0x74, 0xae,
-	0xda, 0x3d, 0x25, 0xde, 0x3d, 0xb1, 0x8b, 0x41, 0x3c, 0x4c, 0xbc, 0x47, 0x54, 0x7f, 0xa1, 0xa7,
-	0xb0, 0x10, 0x72, 0x32, 0x61, 0x9d, 0x8d, 0xee, 0x7c, 0x8d, 0x9e, 0x28, 0x50, 0x68, 0xd1, 0x4b,
-	0x52, 0x43, 0x76, 0xbf, 0x16, 0x6d, 0xc3, 0xa7, 0x83, 0x09, 0x4d, 0x52, 0xae, 0xe5, 0x85, 0x30,
-	0x33, 0xd9, 0xb1, 0xa1, 0xa3, 0xa0, 0x82, 0x28, 0x18, 0x6c, 0x13, 0x1e, 0x2b, 0x4c, 0xf5, 0xb3,
-	0x31, 0x67, 0xd1, 0xf2, 0x3e, 0x34, 0x50, 0x07, 0xb6, 0x34, 0x64, 0xba, 0xc7, 0x20, 0x5b, 0xb0,
-	0xa1, 0x10, 0x5d, 0xf8, 0x95, 0x19, 0x59, 0xc5, 0x1a, 0x64, 0x17, 0x6c, 0xbd, 0xe8, 0x62, 0x7d,
-	0x69, 0xd4, 0xfd, 0x67, 0x0e, 0xda, 0xe7, 0x98, 0xaa, 0xf3, 0xd3, 0x6c, 0xe8, 0x02, 0xda, 0x77,
-	0x0f, 0x15, 0xed, 0xf4, 0x52, 0xea, 0xf7, 0xea, 0x6f, 0x3c, 0x7b, 0x4f, 0x82, 0x4d, 0x85, 0xe0,
-	0x58, 0xe8, 0x18, 0xda, 0x27, 0x37, 0xc4, 0x1f, 0x6b, 0x1e, 0x8e, 0x39, 0x41, 0x6d, 0x1d, 0x31,
-	0xbb, 0x62, 0x6d, 0xdb, 0x9c, 0xed, 0x65, 0x38, 0xa1, 0x11, 0x39, 0x63, 0x49, 0x5c, 0x88, 0xf1,
-	0x07, 0xac, 0x57, 0xae, 0x22, 0xf4, 0xa2, 0xb4, 0xac, 0x8f, 0x5d, 0x8d, 0xf6, 0xbe, 0x74, 0x6d,
-	0xbc, 0xcd, 0x1c, 0x0b, 0xfd, 0x04, 0x6b, 0xb2, 0x3a, 0x45, 0x6a, 0xff, 0x8f, 0x6d, 0xbb, 0x7f,
-	0xcf, 0xc1, 0xe3, 0x73, 0x4c, 0xb3, 0x32, 0x32, 0x09, 0x3e, 0x83, 0x35, 0x7d, 0x8a, 0x06, 0x41,
-	0xdb, 0x32, 0x56, 0xdd, 0x25, 0x79, 0x4f, 0x5a, 0x8e, 0x60, 0xed, 0x94, 0x44, 0x84, 0x93, 0x3c,
-	0xd6, 0x7f, 0xcd, 0xec, 0x19, 0xac, 0x96, 0xfa, 0xaf, 0xba, 0xeb, 0x82, 0x64, 0xd8, 0xb6, 0x04,
-	0x6b, 0x1b, 0xd6, 0xb1, 0xd0, 0x77, 0xb0, 0x52, 0xec, 0xae, 0x9a, 0xb5, 0x6c, 0x9b, 0x73, 0xa8,
-	0x99, 0xee, 0xde, 0xc0, 0xfa, 0x39, 0xa6, 0xba, 0xbf, 0x4c, 0xba, 0x2e, 0x4d, 0xba, 0xb2, 0xbe,
-	0x43, 0xdd, 0x2c, 0x5d, 0x0d, 0x2f, 0x03, 0x7b, 0x57, 0x7a, 0x34, 0xf5, 0xab, 0xe5, 0x26, 0xf2,
-	0x68, 0xb2, 0x76, 0x35, 0x5c, 0x6f, 0xa0, 0x7d, 0xb7, 0x91, 0xd1, 0x93, 0x8c, 0xac, 0xf9, 0x9d,
-	0xa0, 0x8b, 0xa1, 0x51, 0x04, 0x2c, 0xf7, 0x57, 0x68, 0x9d, 0x63, 0x2a, 0x34, 0xc0, 0x70, 0x0d,
-	0x60, 0xb9, 0x20, 0x0c, 0x68, 0x3f, 0xa3, 0xa9, 0x7d, 0x23, 0xd8, 0x9d, 0x02, 0x43, 0x59, 0x4a,
-	0x2c, 0x77, 0x0c, 0xe8, 0x1c, 0x53, 0xa3, 0x24, 0x86, 0xe0, 0xb5, 0x49, 0x5c, 0x26, 0x31, 0xc8,
-	0xc9, 0x48, 0x1a, 0x5f, 0x0c, 0xa5, 0xd4, 0x55, 0xc5, 0xc9, 0x72, 0x7d, 0x58, 0x15, 0x64, 0xb7,
-	0xbe, 0xe1, 0xf1, 0xa0, 0x55, 0xd6, 0x2b, 0xf4, 0x59, 0x4e, 0xd3, 0xf0, 0x62, 0xb0, 0x77, 0x8a,
-	0x2c, 0x77, 0x75, 0xce, 0x72, 0xaf, 0x61, 0x4d, 0xb4, 0x8e, 0xe8, 0x45, 0x43, 0xf3, 0x0a, 0x56,
-	0x8a, 0xe2, 0x87, 0x0e, 0xf2, 0x9e, 0xa9, 0x7d, 0x33, 0xe8, 0x52, 0xab, 0x15, 0x4c, 0xcb, 0x1d,
-	0x4a, 0xe5, 0x93, 0x7a, 0x39, 0xab, 0x6c, 0xc4, 0xc8, 0x68, 0x61, 0x23, 0x4d, 0x8f, 0x87, 0xd2,
-	0x46, 0x2a, 0xf2, 0x6b, 0xb9, 0xef, 0x61, 0x53, 0x94, 0x74, 0xae, 0xbe, 0x86, 0xec, 0x77, 0x40,
-	0x55, 0x65, 0x46, 0xcf, 0xf2, 0xca, 0xfe, 0xc8, 0x4b, 0xc2, 0x3e, 0x28, 0x96, 0x77, 0x8d, 0xb2,
-	0x3b, 0xd6, 0xf1, 0xf7, 0xb0, 0x15, 0x13, 0xde, 0x63, 0xe3, 0x99, 0x1f, 0x25, 0xd3, 0x40, 0xfd,
-	0xd6, 0x88, 0x69, 0x6f, 0x9f, 0x8d, 0x42, 0x7e, 0x33, 0x7d, 0x27, 0x44, 0xa1, 0xcf, 0xc6, 0xb3,
-	0x43, 0x89, 0x1f, 0x72, 0xe2, 0xf7, 0xa5, 0x4f, 0xff, 0xf6, 0xab, 0x7e, 0x4a, 0xfd, 0x77, 0x8b,
-	0x72, 0xf4, 0xf5, 0xbf, 0x01, 0x00, 0x00, 0xff, 0xff, 0xef, 0x34, 0x25, 0xd8, 0x64, 0x0d, 0x00,
-	0x00,
+	// 1612 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x58, 0x5b, 0x6f, 0xdb, 0xc6,
+	0x12, 0xa6, 0x7c, 0x95, 0xc7, 0x37, 0x7a, 0x63, 0x3b, 0x32, 0xed, 0x38, 0x3e, 0xcc, 0xe5, 0x24,
+	0xc1, 0x89, 0x84, 0xa3, 0x83, 0x03, 0x14, 0x68, 0x8b, 0x56, 0x96, 0xd4, 0x44, 0xb9, 0xc8, 0x06,
+	0x25, 0xa3, 0x69, 0x0a, 0x34, 0xa5, 0xc9, 0xb5, 0xcc, 0x8a, 0x22, 0x59, 0x92, 0x72, 0xac, 0xf4,
+	0xa1, 0x05, 0xfa, 0x50, 0xa0, 0x3f, 0xa5, 0x2f, 0x7d, 0xec, 0xbf, 0x28, 0xd0, 0xff, 0xd3, 0x87,
+	0x62, 0x6f, 0xbc, 0x88, 0x94, 0xd3, 0xa8, 0x79, 0x13, 0xe7, 0xdb, 0x9d, 0xf9, 0x76, 0x67, 0x76,
+	0xbe, 0x5d, 0x01, 0x0a, 0x7c, 0xa3, 0xd2, 0xf3, 0x3d, 0xa3, 0xe2, 0xe8, 0x5e, 0xd9, 0xf3, 0xdd,
+	0xd0, 0x45, 0xb3, 0xbe, 0x67, 0x28, 0x5b, 0x04, 0x30, 0xdc, 0xc1, 0xc0, 0x75, 0x2a, 0x83, 0xa0,
+	0x17, 0x30, 0x2c, 0x65, 0xf6, 0xf4, 0x1e, 0xe6, 0xe6, 0x0d, 0x62, 0x76, 0x74, 0x2f, 0xf6, 0xa2,
+	0x7e, 0x08, 0xcb, 0x87, 0xa3, 0x96, 0xa9, 0xe1, 0x6f, 0x87, 0x38, 0x08, 0xd1, 0x1a, 0xcc, 0x58,
+	0x66, 0x09, 0x0e, 0x0a, 0xf7, 0x96, 0xb4, 0x19, 0xcb, 0x44, 0x7b, 0xb0, 0x64, 0xb8, 0x4e, 0x88,
+	0x2f, 0xc3, 0x96, 0x59, 0xda, 0xa4, 0xe6, 0xd8, 0xa0, 0xfe, 0x5c, 0x80, 0xed, 0xc3, 0x51, 0x03,
+	0x5f, 0x58, 0x06, 0xae, 0x39, 0x66, 0x57, 0x0f, 0xfa, 0xc2, 0x91, 0x02, 0x45, 0x93, 0xda, 0x5b,
+	0xc2, 0x5d, 0xf4, 0x8d, 0xb6, 0x61, 0x21, 0xd4, 0x83, 0x7e, 0xe4, 0x91, 0x7f, 0xa1, 0x7d, 0x00,
+	0x36, 0xa6, 0x3b, 0xf2, 0x70, 0x69, 0x9f, 0x62, 0x09, 0x4b, 0x9a, 0xcc, 0xbd, 0x71, 0x32, 0x17,
+	0x70, 0x5b, 0x70, 0x69, 0x99, 0x35, 0xc7, 0x6c, 0x44, 0x13, 0x6b, 0x8e, 0xf9, 0x14, 0x8f, 0x04,
+	0xb3, 0x5d, 0x58, 0x62, 0x3e, 0x5f, 0x59, 0x59, 0x6a, 0x32, 0xcc, 0xf6, 0xf1, 0x88, 0xf3, 0x22,
+	0x3f, 0xd1, 0x4d, 0x58, 0xe6, 0xc3, 0xc3, 0x5c, 0x56, 0x6a, 0x13, 0x76, 0x1e, 0xe1, 0xb0, 0x8b,
+	0x07, 0x9e, 0xad, 0x87, 0x98, 0x45, 0xd5, 0x70, 0xe0, 0xb9, 0x4e, 0x80, 0x11, 0x82, 0x39, 0x47,
+	0x1f, 0x60, 0x1e, 0x87, 0xfe, 0x46, 0x9b, 0x30, 0x7f, 0xa1, 0xdb, 0x43, 0xcc, 0xa3, 0xb0, 0x0f,
+	0xf5, 0x03, 0xd8, 0xfc, 0xdc, 0x0a, 0xcf, 0x35, 0xfd, 0x75, 0xdd, 0x75, 0xce, 0xac, 0x9e, 0xa0,
+	0x7b, 0x00, 0xb3, 0xc6, 0x59, 0x8f, 0x3a, 0x58, 0xae, 0xae, 0x95, 0x49, 0xe6, 0xe2, 0x31, 0x04,
+	0x52, 0xbf, 0x83, 0x5d, 0x32, 0xb3, 0x66, 0x9a, 0x3e, 0x0e, 0x82, 0x68, 0xe5, 0xc2, 0xc1, 0x5d,
+	0x58, 0xd4, 0x19, 0xc4, 0x9d, 0xac, 0x50, 0x27, 0x7c, 0xb8, 0x26, 0x40, 0x92, 0x15, 0xb6, 0x2a,
+	0x91, 0x15, 0xf6, 0x95, 0xde, 0xf5, 0xfd, 0xf1, 0x5d, 0xff, 0xa1, 0x00, 0x7b, 0x24, 0xfa, 0x63,
+	0x2b, 0xac, 0xbb, 0x43, 0x27, 0xcc, 0x84, 0x7f, 0x00, 0xc5, 0x73, 0x2b, 0x34, 0x08, 0x96, 0x5a,
+	0x84, 0x98, 0x10, 0x68, 0x11, 0x3e, 0x25, 0x85, 0x9f, 0x0a, 0xb0, 0x4f, 0x28, 0xb4, 0x9c, 0x10,
+	0xfb, 0x67, 0xba, 0x81, 0xb3, 0x7b, 0x50, 0x01, 0x88, 0x51, 0x4e, 0x63, 0x9d, 0xd2, 0x88, 0xcd,
+	0x5a, 0x62, 0xc8, 0x94, 0x4c, 0x02, 0xd8, 0x21, 0x44, 0x5e, 0xba, 0x4e, 0x0e, 0x87, 0x03, 0x98,
+	0x7f, 0x43, 0x00, 0x1e, 0x1e, 0x68, 0x78, 0x3a, 0x54, 0x63, 0xc0, 0x94, 0x41, 0x7f, 0x2c, 0xc0,
+	0x0d, 0x12, 0xb5, 0x63, 0x9c, 0x63, 0x73, 0x68, 0xe7, 0x44, 0xfe, 0x0f, 0x2c, 0x05, 0x02, 0x4c,
+	0xe5, 0x20, 0x9a, 0xa2, 0xc5, 0x03, 0xa6, 0x64, 0xf1, 0x3d, 0x2b, 0x83, 0x0e, 0xf6, 0xc9, 0xe0,
+	0x2c, 0x87, 0xfb, 0x50, 0x0c, 0x38, 0xc6, 0x29, 0xac, 0x32, 0x0a, 0xdc, 0xa8, 0x45, 0xf0, 0x94,
+	0x04, 0x5e, 0x83, 0x42, 0xcf, 0x8f, 0x3b, 0x0c, 0x73, 0xc2, 0xdf, 0x82, 0x05, 0x9f, 0x22, 0x3c,
+	0xf8, 0x32, 0x3b, 0x48, 0xd4, 0xa4, 0x71, 0xe8, 0x9f, 0xad, 0xfc, 0xd8, 0xb5, 0x2d, 0xc3, 0xca,
+	0x5f, 0xb9, 0xc7, 0xb1, 0xd4, 0xca, 0xc5, 0x04, 0x2d, 0x82, 0xa7, 0x24, 0xf0, 0x5b, 0x01, 0x0e,
+	0x68, 0x03, 0xf0, 0x3c, 0xdb, 0x32, 0xf4, 0xd0, 0x72, 0x9d, 0x2c, 0x8b, 0xff, 0xc3, 0x8a, 0x9e,
+	0xc0, 0x39, 0x93, 0x0d, 0xd6, 0x0a, 0x12, 0x80, 0x96, 0x1a, 0x36, 0x91, 0xd1, 0x5d, 0x58, 0xd3,
+	0x3d, 0xaf, 0x61, 0xf9, 0xd8, 0x08, 0x5d, 0x7f, 0x14, 0xd1, 0x1a, 0xb3, 0xbe, 0xa5, 0x65, 0xf3,
+	0xce, 0x75, 0x12, 0x60, 0xbf, 0xd5, 0xc8, 0xed, 0x5c, 0x43, 0x06, 0xa5, 0x3a, 0x17, 0x1f, 0xae,
+	0x09, 0x70, 0xca, 0x6d, 0x7b, 0x91, 0xd2, 0xae, 0x63, 0xbd, 0x17, 0xc5, 0x8d, 0xfd, 0x41, 0xca,
+	0x1f, 0x82, 0x39, 0x22, 0xa6, 0x34, 0xca, 0xbc, 0x46, 0x7f, 0x13, 0x5b, 0x60, 0xbd, 0x61, 0xba,
+	0x30, 0xaf, 0xd1, 0xdf, 0x6a, 0x1d, 0x4a, 0xc7, 0x43, 0xdb, 0x66, 0xbe, 0x45, 0x37, 0xe7, 0x82,
+	0xf0, 0x6f, 0x58, 0xf0, 0x71, 0x30, 0xb4, 0x59, 0x33, 0x5c, 0xe3, 0x5d, 0x88, 0x0c, 0xd7, 0xa8,
+	0x59, 0xe3, 0xb0, 0x6a, 0xc3, 0xd6, 0x33, 0x2b, 0x08, 0x13, 0x7a, 0xc0, 0x3d, 0x3c, 0x84, 0x25,
+	0x12, 0xf9, 0x95, 0xe5, 0x9c, 0xb9, 0x7c, 0x5f, 0xe4, 0x32, 0xd3, 0xfa, 0x32, 0x59, 0x45, 0xcb,
+	0x39, 0x73, 0xb5, 0xa2, 0xc7, 0x7f, 0xa1, 0xdb, 0x30, 0x6f, 0x85, 0x78, 0x10, 0x94, 0x36, 0x0f,
+	0x66, 0x73, 0x14, 0x84, 0x81, 0x44, 0x7d, 0x1e, 0xe1, 0x9c, 0x60, 0x6f, 0x57, 0x9f, 0x5f, 0x0a,
+	0xb0, 0xdd, 0xc1, 0x22, 0x75, 0x9d, 0x50, 0x0f, 0xf1, 0xdf, 0xb9, 0x03, 0x28, 0x50, 0x24, 0xaa,
+	0x4f, 0x95, 0x9e, 0x65, 0x2d, 0xfa, 0x46, 0x07, 0x42, 0x72, 0xa9, 0x37, 0x9e, 0xb9, 0xa4, 0xe9,
+	0xea, 0xb2, 0x42, 0x25, 0x58, 0x1c, 0xe0, 0x20, 0x20, 0xa9, 0xaa, 0x52, 0x4c, 0x7c, 0xaa, 0xbf,
+	0x17, 0x60, 0xab, 0x6e, 0x63, 0xdd, 0xc9, 0xc8, 0xec, 0x55, 0x5c, 0x89, 0x3f, 0xfd, 0xb2, 0x43,
+	0xd2, 0xcc, 0x52, 0x2f, 0x3e, 0xc9, 0x8d, 0x85, 0x64, 0xbc, 0xe9, 0xe8, 0xa7, 0x36, 0x23, 0x5a,
+	0xd4, 0x12, 0x16, 0x52, 0x49, 0x03, 0xfd, 0xb2, 0xa1, 0x8f, 0x28, 0xc9, 0x79, 0x8d, 0x7f, 0x11,
+	0xfe, 0xa6, 0x3e, 0xe2, 0xd3, 0xaa, 0x74, 0x5a, 0x6c, 0x20, 0x1d, 0x23, 0xb4, 0x06, 0xec, 0x16,
+	0xf4, 0x11, 0xad, 0x92, 0xd5, 0xb2, 0xef, 0x19, 0xe5, 0x2e, 0x37, 0x6a, 0x11, 0xac, 0x1e, 0xc2,
+	0xf6, 0xf8, 0x7a, 0x78, 0xe6, 0xee, 0x8d, 0x15, 0x9a, 0x4c, 0x5d, 0xb0, 0xc1, 0xe9, 0x4a, 0xdb,
+	0x81, 0xeb, 0xad, 0x81, 0xe7, 0xfa, 0x21, 0xbf, 0x12, 0xe0, 0x40, 0x38, 0x51, 0x15, 0x28, 0x31,
+	0x28, 0x21, 0x93, 0x02, 0xdb, 0x82, 0x6b, 0x0c, 0x63, 0x1a, 0x26, 0xcc, 0x91, 0xb7, 0x58, 0x5c,
+	0x04, 0x54, 0x82, 0x6d, 0x0e, 0x89, 0xa6, 0x2f, 0x90, 0x6d, 0xd8, 0x64, 0x08, 0xef, 0xc8, 0x99,
+	0x19, 0x51, 0xb3, 0x14, 0xc8, 0x1e, 0x28, 0x9c, 0x74, 0xb2, 0x79, 0x65, 0x48, 0xc4, 0xb7, 0x0c,
+	0x01, 0x5d, 0x87, 0x2d, 0x06, 0x89, 0x36, 0x92, 0x98, 0x93, 0xa9, 0x63, 0x06, 0x3d, 0xf8, 0x14,
+	0x8a, 0x62, 0xef, 0xd1, 0x22, 0xcc, 0x36, 0x6a, 0x5f, 0xc8, 0x12, 0x2a, 0xc2, 0xdc, 0xe3, 0xa3,
+	0x13, 0x4d, 0x2e, 0x20, 0x80, 0x85, 0xe7, 0xad, 0xf6, 0x49, 0xb7, 0x29, 0xcf, 0x90, 0xdf, 0x9d,
+	0x66, 0xfd, 0xa8, 0xdd, 0x90, 0x67, 0xd1, 0x12, 0xcc, 0x3f, 0x3f, 0x6a, 0x77, 0x1f, 0xcb, 0x73,
+	0x0f, 0xee, 0xc2, 0x72, 0x62, 0xeb, 0xd1, 0x32, 0x2c, 0x76, 0x4e, 0xea, 0xf5, 0x66, 0xb3, 0x21,
+	0x4b, 0x64, 0xca, 0x67, 0xb5, 0xd6, 0xb3, 0x66, 0x43, 0x2e, 0x54, 0xff, 0x98, 0x03, 0xb9, 0xad,
+	0x7b, 0x9c, 0x04, 0xdb, 0x26, 0x74, 0x0c, 0xf2, 0x78, 0x3f, 0x41, 0xbb, 0x34, 0x9d, 0xf9, 0x97,
+	0x6f, 0xe5, 0x06, 0x05, 0x27, 0xf5, 0x20, 0x55, 0x42, 0x87, 0x20, 0xd7, 0xcf, 0xb1, 0xd1, 0x4f,
+	0x2c, 0x16, 0xc9, 0xdc, 0x63, 0xf4, 0x18, 0x50, 0x14, 0xd1, 0x56, 0x3a, 0xd6, 0xc0, 0xb3, 0xf1,
+	0x93, 0xc0, 0x75, 0x12, 0x3e, 0xbe, 0x86, 0x8d, 0xcc, 0xbd, 0x17, 0xdd, 0x4f, 0xd1, 0xba, 0xea,
+	0x1e, 0xae, 0xec, 0xd3, 0xa1, 0x13, 0xaf, 0xce, 0xaa, 0x84, 0x8e, 0x60, 0x9d, 0x36, 0x46, 0x52,
+	0x13, 0xef, 0x65, 0xd9, 0x1a, 0x20, 0x82, 0x8a, 0xa2, 0x78, 0x2f, 0x3e, 0x79, 0x72, 0x58, 0x35,
+	0xbd, 0x17, 0x8f, 0x6d, 0x58, 0x1f, 0x2b, 0x44, 0xee, 0x30, 0xbf, 0xcd, 0x2a, 0x7b, 0xf9, 0xa0,
+	0xf0, 0x57, 0xfd, 0x73, 0x06, 0xae, 0xb5, 0x75, 0x2f, 0x6a, 0x11, 0xa2, 0xac, 0x9e, 0xc0, 0x3a,
+	0x3f, 0x74, 0x02, 0x41, 0x3b, 0xd4, 0x55, 0xde, 0x3b, 0xe4, 0x2d, 0xc5, 0x50, 0x83, 0xf5, 0x06,
+	0xb6, 0x71, 0x88, 0x63, 0x5f, 0xef, 0x5a, 0x4f, 0x4f, 0x60, 0x35, 0x25, 0x78, 0xd9, 0x5d, 0x4c,
+	0x68, 0xb4, 0xa2, 0x50, 0x30, 0x57, 0x21, 0x55, 0x09, 0x7d, 0x0c, 0x2b, 0x49, 0x39, 0xcb, 0xe1,
+	0xb2, 0x23, 0xaa, 0x2f, 0x6f, 0xfa, 0x53, 0x58, 0x4b, 0x77, 0x55, 0xa4, 0x24, 0xba, 0xe7, 0xf8,
+	0xce, 0xec, 0xe6, 0x62, 0xd1, 0xf6, 0xff, 0x5a, 0x80, 0x8d, 0xb6, 0xee, 0xf1, 0xe6, 0x2a, 0x36,
+	0xbf, 0x23, 0x36, 0x3f, 0x6a, 0xba, 0xe8, 0x20, 0xda, 0xfc, 0x09, 0x4f, 0x39, 0x9e, 0xe9, 0x49,
+	0xcd, 0x5a, 0x42, 0x4d, 0xb8, 0xe6, 0xe3, 0xd3, 0xa1, 0x65, 0x9b, 0x1c, 0x6d, 0x39, 0x26, 0xbe,
+	0x7c, 0xd7, 0x4c, 0x54, 0x5d, 0x5a, 0x2f, 0x51, 0xcb, 0x17, 0x94, 0x5f, 0x80, 0x3c, 0x2e, 0x06,
+	0xe8, 0x56, 0xc4, 0x79, 0xf2, 0xeb, 0x8b, 0x57, 0xfc, 0x44, 0x21, 0x91, 0xaa, 0x5f, 0xc2, 0x5a,
+	0x5b, 0xf7, 0x88, 0x8e, 0x88, 0x58, 0x2d, 0x58, 0x4e, 0x88, 0x0b, 0xda, 0x8f, 0xc2, 0xe4, 0xbe,
+	0xad, 0x94, 0x52, 0x22, 0x42, 0x5a, 0x8e, 0xa4, 0x6a, 0x1f, 0x50, 0x5b, 0xf7, 0x84, 0x1a, 0x89,
+	0x00, 0x27, 0x62, 0xff, 0x23, 0x99, 0x42, 0x6a, 0x14, 0x64, 0xe2, 0x53, 0x2a, 0x95, 0x81, 0xac,
+	0xc0, 0x49, 0x55, 0x03, 0x56, 0x49, 0xb0, 0x0b, 0x43, 0xc4, 0xd1, 0x60, 0x2d, 0xad, 0x79, 0xe8,
+	0x5f, 0x71, 0x98, 0x09, 0x8f, 0x25, 0x5e, 0x51, 0x13, 0xb4, 0x52, 0xaa, 0xbe, 0x82, 0x75, 0x72,
+	0x9e, 0x49, 0x5b, 0x14, 0x61, 0x9e, 0xc1, 0x4a, 0x52, 0x40, 0xd1, 0xcd, 0xf8, 0x20, 0xe7, 0x3e,
+	0x88, 0x78, 0xfd, 0xe7, 0x8a, 0xae, 0x54, 0x3d, 0xa3, 0x22, 0x44, 0x35, 0x77, 0x94, 0x59, 0x88,
+	0x90, 0xe2, 0xc4, 0x42, 0x26, 0xbd, 0x7d, 0x52, 0x0b, 0xc9, 0x48, 0xb8, 0x54, 0x7d, 0x0d, 0x5b,
+	0xe4, 0x64, 0xc4, 0x0a, 0x2e, 0x82, 0x7d, 0x05, 0x28, 0xab, 0xee, 0xe8, 0x4e, 0x7c, 0x40, 0xae,
+	0x78, 0xea, 0x28, 0x37, 0x93, 0xa7, 0x24, 0xef, 0x76, 0x20, 0x55, 0xbf, 0xa1, 0x35, 0x21, 0x74,
+	0x40, 0x44, 0xed, 0x8a, 0x9a, 0x88, 0x6e, 0x0d, 0x89, 0x35, 0x4e, 0xfa, 0x83, 0x23, 0x55, 0x12,
+	0xd9, 0xeb, 0x06, 0x29, 0x09, 0xb2, 0x99, 0x4c, 0x1f, 0x44, 0xa4, 0x23, 0x58, 0x4d, 0x5d, 0x42,
+	0x12, 0x67, 0x7f, 0xc2, 0x63, 0x88, 0x37, 0xbc, 0xfc, 0xab, 0x8b, 0x74, 0xf8, 0x09, 0x6c, 0x3b,
+	0x38, 0x2c, 0x07, 0xfd, 0x91, 0x61, 0xbb, 0x43, 0x93, 0xfd, 0xb9, 0x47, 0x66, 0xbc, 0xbc, 0xd3,
+	0xb3, 0xc2, 0xf3, 0xe1, 0x29, 0x39, 0xf0, 0x95, 0xa0, 0x3f, 0x7a, 0x48, 0xf1, 0x87, 0x21, 0x36,
+	0x2a, 0x74, 0x4c, 0xe5, 0xe2, 0xbf, 0x15, 0xdf, 0x33, 0x4e, 0x17, 0xe8, 0xd7, 0xff, 0xfe, 0x0a,
+	0x00, 0x00, 0xff, 0xff, 0xbd, 0xa9, 0x25, 0x93, 0x6a, 0x14, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1196,6 +1765,9 @@ type NapDeviceServiceClient interface {
 	CheckDeviceState(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*common.SimpleJsonResponse, error)
 	GetTemplateDevice(ctx context.Context, in *ByDeviceIdAndDeviceTypeAndKeyRequest, opts ...grpc.CallOption) (*GetTemplateDeviceResponse, error)
 	PullRouteConfig(ctx context.Context, in *ByDeviceAndTaskRequest, opts ...grpc.CallOption) (*PullDeviceConfigResponse, error)
+	PullHitCountConfig(ctx context.Context, in *ByDeviceAndTaskRequest, opts ...grpc.CallOption) (*PullDeviceConfigResponse, error)
+	PullUserIDConfig(ctx context.Context, in *ByDeviceAndTaskRequest, opts ...grpc.CallOption) (*PullDeviceConfigResponse, error)
+	SendDeviceState(ctx context.Context, in *SendDeviceStateRequest, opts ...grpc.CallOption) (*SendDeviceStateResponse, error)
 }
 
 type napDeviceServiceClient struct {
@@ -1242,12 +1814,42 @@ func (c *napDeviceServiceClient) PullRouteConfig(ctx context.Context, in *ByDevi
 	return out, nil
 }
 
+func (c *napDeviceServiceClient) PullHitCountConfig(ctx context.Context, in *ByDeviceAndTaskRequest, opts ...grpc.CallOption) (*PullDeviceConfigResponse, error) {
+	out := new(PullDeviceConfigResponse)
+	err := c.cc.Invoke(ctx, "/rpc.NapDeviceService/PullHitCountConfig", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *napDeviceServiceClient) PullUserIDConfig(ctx context.Context, in *ByDeviceAndTaskRequest, opts ...grpc.CallOption) (*PullDeviceConfigResponse, error) {
+	out := new(PullDeviceConfigResponse)
+	err := c.cc.Invoke(ctx, "/rpc.NapDeviceService/PullUserIDConfig", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *napDeviceServiceClient) SendDeviceState(ctx context.Context, in *SendDeviceStateRequest, opts ...grpc.CallOption) (*SendDeviceStateResponse, error) {
+	out := new(SendDeviceStateResponse)
+	err := c.cc.Invoke(ctx, "/rpc.NapDeviceService/SendDeviceState", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NapDeviceServiceServer is the server API for NapDeviceService service.
 type NapDeviceServiceServer interface {
 	PullDeviceConfig(context.Context, *ByDeviceAndTaskRequest) (*PullDeviceConfigResponse, error)
 	CheckDeviceState(context.Context, *ByIdRequest) (*common.SimpleJsonResponse, error)
 	GetTemplateDevice(context.Context, *ByDeviceIdAndDeviceTypeAndKeyRequest) (*GetTemplateDeviceResponse, error)
 	PullRouteConfig(context.Context, *ByDeviceAndTaskRequest) (*PullDeviceConfigResponse, error)
+	PullHitCountConfig(context.Context, *ByDeviceAndTaskRequest) (*PullDeviceConfigResponse, error)
+	PullUserIDConfig(context.Context, *ByDeviceAndTaskRequest) (*PullDeviceConfigResponse, error)
+	SendDeviceState(context.Context, *SendDeviceStateRequest) (*SendDeviceStateResponse, error)
 }
 
 // UnimplementedNapDeviceServiceServer can be embedded to have forward compatible implementations.
@@ -1265,6 +1867,15 @@ func (*UnimplementedNapDeviceServiceServer) GetTemplateDevice(ctx context.Contex
 }
 func (*UnimplementedNapDeviceServiceServer) PullRouteConfig(ctx context.Context, req *ByDeviceAndTaskRequest) (*PullDeviceConfigResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PullRouteConfig not implemented")
+}
+func (*UnimplementedNapDeviceServiceServer) PullHitCountConfig(ctx context.Context, req *ByDeviceAndTaskRequest) (*PullDeviceConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PullHitCountConfig not implemented")
+}
+func (*UnimplementedNapDeviceServiceServer) PullUserIDConfig(ctx context.Context, req *ByDeviceAndTaskRequest) (*PullDeviceConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PullUserIDConfig not implemented")
+}
+func (*UnimplementedNapDeviceServiceServer) SendDeviceState(ctx context.Context, req *SendDeviceStateRequest) (*SendDeviceStateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendDeviceState not implemented")
 }
 
 func RegisterNapDeviceServiceServer(s *grpc.Server, srv NapDeviceServiceServer) {
@@ -1343,6 +1954,60 @@ func _NapDeviceService_PullRouteConfig_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NapDeviceService_PullHitCountConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ByDeviceAndTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NapDeviceServiceServer).PullHitCountConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rpc.NapDeviceService/PullHitCountConfig",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NapDeviceServiceServer).PullHitCountConfig(ctx, req.(*ByDeviceAndTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NapDeviceService_PullUserIDConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ByDeviceAndTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NapDeviceServiceServer).PullUserIDConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rpc.NapDeviceService/PullUserIDConfig",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NapDeviceServiceServer).PullUserIDConfig(ctx, req.(*ByDeviceAndTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NapDeviceService_SendDeviceState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendDeviceStateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NapDeviceServiceServer).SendDeviceState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rpc.NapDeviceService/SendDeviceState",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NapDeviceServiceServer).SendDeviceState(ctx, req.(*SendDeviceStateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _NapDeviceService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "rpc.NapDeviceService",
 	HandlerType: (*NapDeviceServiceServer)(nil),
@@ -1363,6 +2028,18 @@ var _NapDeviceService_serviceDesc = grpc.ServiceDesc{
 			MethodName: "PullRouteConfig",
 			Handler:    _NapDeviceService_PullRouteConfig_Handler,
 		},
+		{
+			MethodName: "PullHitCountConfig",
+			Handler:    _NapDeviceService_PullHitCountConfig_Handler,
+		},
+		{
+			MethodName: "PullUserIDConfig",
+			Handler:    _NapDeviceService_PullUserIDConfig_Handler,
+		},
+		{
+			MethodName: "SendDeviceState",
+			Handler:    _NapDeviceService_SendDeviceState_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "src/grpc/nap.proto",
@@ -1376,6 +2053,7 @@ type NapRawConfigServiceClient interface {
 	DeleteRawConfig(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*common.SimpleJsonResponse, error)
 	ListRawConfig(ctx context.Context, in *ByDeviceAndPageRequest, opts ...grpc.CallOption) (*ListRawConfigResponse, error)
 	GetRawConfig(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*GetRawConfigResponse, error)
+	CleanRawConfig(ctx context.Context, in *CleanRawConfigRequest, opts ...grpc.CallOption) (*CleanRawConfigResponse, error)
 }
 
 type napRawConfigServiceClient struct {
@@ -1422,12 +2100,22 @@ func (c *napRawConfigServiceClient) GetRawConfig(ctx context.Context, in *ByIdRe
 	return out, nil
 }
 
+func (c *napRawConfigServiceClient) CleanRawConfig(ctx context.Context, in *CleanRawConfigRequest, opts ...grpc.CallOption) (*CleanRawConfigResponse, error) {
+	out := new(CleanRawConfigResponse)
+	err := c.cc.Invoke(ctx, "/rpc.NapRawConfigService/CleanRawConfig", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NapRawConfigServiceServer is the server API for NapRawConfigService service.
 type NapRawConfigServiceServer interface {
 	ImportRawConfig(context.Context, *WithRawConfigRequest) (*common.SimpleJsonResponse, error)
 	DeleteRawConfig(context.Context, *ByIdRequest) (*common.SimpleJsonResponse, error)
 	ListRawConfig(context.Context, *ByDeviceAndPageRequest) (*ListRawConfigResponse, error)
 	GetRawConfig(context.Context, *ByIdRequest) (*GetRawConfigResponse, error)
+	CleanRawConfig(context.Context, *CleanRawConfigRequest) (*CleanRawConfigResponse, error)
 }
 
 // UnimplementedNapRawConfigServiceServer can be embedded to have forward compatible implementations.
@@ -1445,6 +2133,9 @@ func (*UnimplementedNapRawConfigServiceServer) ListRawConfig(ctx context.Context
 }
 func (*UnimplementedNapRawConfigServiceServer) GetRawConfig(ctx context.Context, req *ByIdRequest) (*GetRawConfigResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRawConfig not implemented")
+}
+func (*UnimplementedNapRawConfigServiceServer) CleanRawConfig(ctx context.Context, req *CleanRawConfigRequest) (*CleanRawConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CleanRawConfig not implemented")
 }
 
 func RegisterNapRawConfigServiceServer(s *grpc.Server, srv NapRawConfigServiceServer) {
@@ -1523,6 +2214,24 @@ func _NapRawConfigService_GetRawConfig_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NapRawConfigService_CleanRawConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CleanRawConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NapRawConfigServiceServer).CleanRawConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rpc.NapRawConfigService/CleanRawConfig",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NapRawConfigServiceServer).CleanRawConfig(ctx, req.(*CleanRawConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _NapRawConfigService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "rpc.NapRawConfigService",
 	HandlerType: (*NapRawConfigServiceServer)(nil),
@@ -1543,6 +2252,10 @@ var _NapRawConfigService_serviceDesc = grpc.ServiceDesc{
 			MethodName: "GetRawConfig",
 			Handler:    _NapRawConfigService_GetRawConfig_Handler,
 		},
+		{
+			MethodName: "CleanRawConfig",
+			Handler:    _NapRawConfigService_CleanRawConfig_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "src/grpc/nap.proto",
@@ -1553,6 +2266,7 @@ var _NapRawConfigService_serviceDesc = grpc.ServiceDesc{
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type NapAddressServiceClient interface {
 	ImportAddresses(ctx context.Context, in *WithAddressAndDeviceRequest, opts ...grpc.CallOption) (*ImportAddressesResponse, error)
+	RebuildAddressIndex(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*common.SimpleJsonResponse, error)
 }
 
 type napAddressServiceClient struct {
@@ -1572,9 +2286,19 @@ func (c *napAddressServiceClient) ImportAddresses(ctx context.Context, in *WithA
 	return out, nil
 }
 
+func (c *napAddressServiceClient) RebuildAddressIndex(ctx context.Context, in *ByIdRequest, opts ...grpc.CallOption) (*common.SimpleJsonResponse, error) {
+	out := new(common.SimpleJsonResponse)
+	err := c.cc.Invoke(ctx, "/rpc.NapAddressService/rebuildAddressIndex", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NapAddressServiceServer is the server API for NapAddressService service.
 type NapAddressServiceServer interface {
 	ImportAddresses(context.Context, *WithAddressAndDeviceRequest) (*ImportAddressesResponse, error)
+	RebuildAddressIndex(context.Context, *ByIdRequest) (*common.SimpleJsonResponse, error)
 }
 
 // UnimplementedNapAddressServiceServer can be embedded to have forward compatible implementations.
@@ -1583,6 +2307,9 @@ type UnimplementedNapAddressServiceServer struct {
 
 func (*UnimplementedNapAddressServiceServer) ImportAddresses(ctx context.Context, req *WithAddressAndDeviceRequest) (*ImportAddressesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ImportAddresses not implemented")
+}
+func (*UnimplementedNapAddressServiceServer) RebuildAddressIndex(ctx context.Context, req *ByIdRequest) (*common.SimpleJsonResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RebuildAddressIndex not implemented")
 }
 
 func RegisterNapAddressServiceServer(s *grpc.Server, srv NapAddressServiceServer) {
@@ -1607,6 +2334,24 @@ func _NapAddressService_ImportAddresses_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NapAddressService_RebuildAddressIndex_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NapAddressServiceServer).RebuildAddressIndex(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rpc.NapAddressService/RebuildAddressIndex",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NapAddressServiceServer).RebuildAddressIndex(ctx, req.(*ByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _NapAddressService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "rpc.NapAddressService",
 	HandlerType: (*NapAddressServiceServer)(nil),
@@ -1614,6 +2359,10 @@ var _NapAddressService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ImportAddresses",
 			Handler:    _NapAddressService_ImportAddresses_Handler,
+		},
+		{
+			MethodName: "rebuildAddressIndex",
+			Handler:    _NapAddressService_RebuildAddressIndex_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -2118,6 +2867,150 @@ var _NapApplicationService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ImportApplications",
 			Handler:    _NapApplicationService_ImportApplications_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "src/grpc/nap.proto",
+}
+
+// NapHitCountServiceClient is the client API for NapHitCountService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type NapHitCountServiceClient interface {
+	ImportHitCounts(ctx context.Context, in *WithHitCountAndDeviceRequest, opts ...grpc.CallOption) (*ImportHitCountsResponse, error)
+}
+
+type napHitCountServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewNapHitCountServiceClient(cc grpc.ClientConnInterface) NapHitCountServiceClient {
+	return &napHitCountServiceClient{cc}
+}
+
+func (c *napHitCountServiceClient) ImportHitCounts(ctx context.Context, in *WithHitCountAndDeviceRequest, opts ...grpc.CallOption) (*ImportHitCountsResponse, error) {
+	out := new(ImportHitCountsResponse)
+	err := c.cc.Invoke(ctx, "/rpc.NapHitCountService/ImportHitCounts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// NapHitCountServiceServer is the server API for NapHitCountService service.
+type NapHitCountServiceServer interface {
+	ImportHitCounts(context.Context, *WithHitCountAndDeviceRequest) (*ImportHitCountsResponse, error)
+}
+
+// UnimplementedNapHitCountServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedNapHitCountServiceServer struct {
+}
+
+func (*UnimplementedNapHitCountServiceServer) ImportHitCounts(ctx context.Context, req *WithHitCountAndDeviceRequest) (*ImportHitCountsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ImportHitCounts not implemented")
+}
+
+func RegisterNapHitCountServiceServer(s *grpc.Server, srv NapHitCountServiceServer) {
+	s.RegisterService(&_NapHitCountService_serviceDesc, srv)
+}
+
+func _NapHitCountService_ImportHitCounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WithHitCountAndDeviceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NapHitCountServiceServer).ImportHitCounts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rpc.NapHitCountService/ImportHitCounts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NapHitCountServiceServer).ImportHitCounts(ctx, req.(*WithHitCountAndDeviceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _NapHitCountService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "rpc.NapHitCountService",
+	HandlerType: (*NapHitCountServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ImportHitCounts",
+			Handler:    _NapHitCountService_ImportHitCounts_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "src/grpc/nap.proto",
+}
+
+// NapUserIDServiceClient is the client API for NapUserIDService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type NapUserIDServiceClient interface {
+	ImportUserIDs(ctx context.Context, in *WithUserIDsAndDeviceRequest, opts ...grpc.CallOption) (*ImportUserIDsResponse, error)
+}
+
+type napUserIDServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewNapUserIDServiceClient(cc grpc.ClientConnInterface) NapUserIDServiceClient {
+	return &napUserIDServiceClient{cc}
+}
+
+func (c *napUserIDServiceClient) ImportUserIDs(ctx context.Context, in *WithUserIDsAndDeviceRequest, opts ...grpc.CallOption) (*ImportUserIDsResponse, error) {
+	out := new(ImportUserIDsResponse)
+	err := c.cc.Invoke(ctx, "/rpc.NapUserIDService/ImportUserIDs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// NapUserIDServiceServer is the server API for NapUserIDService service.
+type NapUserIDServiceServer interface {
+	ImportUserIDs(context.Context, *WithUserIDsAndDeviceRequest) (*ImportUserIDsResponse, error)
+}
+
+// UnimplementedNapUserIDServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedNapUserIDServiceServer struct {
+}
+
+func (*UnimplementedNapUserIDServiceServer) ImportUserIDs(ctx context.Context, req *WithUserIDsAndDeviceRequest) (*ImportUserIDsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ImportUserIDs not implemented")
+}
+
+func RegisterNapUserIDServiceServer(s *grpc.Server, srv NapUserIDServiceServer) {
+	s.RegisterService(&_NapUserIDService_serviceDesc, srv)
+}
+
+func _NapUserIDService_ImportUserIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WithUserIDsAndDeviceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NapUserIDServiceServer).ImportUserIDs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rpc.NapUserIDService/ImportUserIDs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NapUserIDServiceServer).ImportUserIDs(ctx, req.(*WithUserIDsAndDeviceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _NapUserIDService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "rpc.NapUserIDService",
+	HandlerType: (*NapUserIDServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ImportUserIDs",
+			Handler:    _NapUserIDService_ImportUserIDs_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
