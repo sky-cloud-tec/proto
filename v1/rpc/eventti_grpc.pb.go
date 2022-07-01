@@ -47,7 +47,7 @@ func (c *eventServiceClient) SearchEvent(ctx context.Context, in *ByEventFieldsA
 // for forward compatibility
 type EventServiceServer interface {
 	SearchEvent(context.Context, *ByEventFieldsAndPageRequest) (*SearchEventResponse, error)
-	mustEmbedUnimplementedEventServiceServer()
+	
 }
 
 // UnimplementedEventServiceServer must be embedded to have forward compatible implementations.
