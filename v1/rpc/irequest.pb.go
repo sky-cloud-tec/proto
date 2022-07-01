@@ -28,7 +28,7 @@ type IResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Code     int32             `protobuf:"varint,10,opt,name=code,proto3" json:"code,omitempty"`
+	Code     common.Retcode    `protobuf:"varint,10,opt,name=code,proto3" json:"code,omitempty"`
 	Msg      string            `protobuf:"bytes,20,opt,name=msg,proto3" json:"msg,omitempty"`                                                                                                 // short msg like retcode but more readable for a glance
 	Log      string            `protobuf:"bytes,23,opt,name=log,proto3" json:"log,omitempty"`                                                                                                 // error stack msg for debugging.
 	Headers  map[string]string `protobuf:"bytes,25,rep,name=headers,proto3" json:"headers,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"` // 复制/存储/转发请求时需要, 正常的http请求不需要
@@ -68,7 +68,7 @@ func (*IResponse) Descriptor() ([]byte, []int) {
 	return file_src_grpc_irequest_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *IResponse) GetCode() int32 {
+func (x *IResponse) GetCode() common.Retcode {
 	if x != nil {
 		return x.Code
 	}
